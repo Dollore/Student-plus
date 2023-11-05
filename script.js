@@ -8,3 +8,4 @@ navItems.forEach(item => {
         this.querySelector('a').style.textDecoration = 'none';
     });
 });
+
