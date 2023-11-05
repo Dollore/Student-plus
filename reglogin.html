@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="index.css"> 
+    <link rel="stylesheet" type="text/css" href="reglogin.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <title>Student+</title>
+  </head>
+  <body>
+
+  
+
+    <ul id="navbar">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span> Start</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-sticky-note"></i><span> Notatki+</span></a></li>
+        <li class="nav-item"><a href="kalendarz.html"><i class="fas fa-calendar-alt"></i><span> Kalendarz+</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-tasks"></i><span> Zadania+</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-user"></i><span> Wykładowcy+</span></a></li>
+        <li class="nav-login"><a href="reglogin.html"><i class="fas fa-sign-in-alt"></i><span> Zaloguj+</span></a></li>
+    </ul>
+
+    <div class="wrapper">
+    	<span class="icon-close">
+    		<ion-icon name="close"></ion-icon>
+    	</span>
+     	<div class="form-box login">
+     		<h2>Zaloguj się</h2>
+     		<form action="#">
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="mail"></ion-icon></span>
+     				<input type="email" required>
+     				<label>E-mail</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+     				<input type="password" required>
+     				<label>Hasło</label>
+     			</div>
+     			<div class="remember-forgot">
+     				<label><input type="checkbox">Zapamiętaj mnie</label>
+     				<a href="#">Zapomniałeś/aś hasła?</a>
+     			</div>
+     			
+     			<button type="submit" class="btn">Login</button>
+     			<div class="login-register">
+     				<p>Nie masz konta? <a href="#" class="register-link">Zarejestruj się</a></p>
+     			</div>
+     			
+     		</form>
+     	</div>
+     	
+     	<div class="form-box register">
+     		<h2>Zarejestruj się</h2>
+     		<form action="#">
+     		<div class="input-box">
+     				<span class="icon"><ion-icon name="person"></ion-icon></span>
+     				<input type="text" required>
+     				<label>Imię</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="person"></ion-icon></span>
+     				<input type="text" required>
+     				<label>Nazwisko</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="mail"></ion-icon></span>
+     				<input type="email" required>
+     				<label>E-mail</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+     				<input type="password" required>
+     				<label>Hasło</label>
+     			</div>
+     			<div class="remember-forgot">
+     				<label><input type="checkbox">Zapoznałem/am się z regulaminem</label>
+     				
+     			</div>
+     			
+     			<button type="submit" class="btn">Rejestruj</button>
+     			<div class="login-register">
+     				<p>Masz już konto? <a href="#" class="login-link">Zaloguj się</a></p>
+     			</div>
+     			
+     		</form>
+     	</div>
+      
+    </div>
+    
+    <script src="reglogin.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+
+
+
+<!--     <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+
+</body>
+</html>
