@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css"> 
     <link rel="stylesheet" type="text/css" href="reglogin.css">
+	<link rel="stylesheet" type="text/css" href="text.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 
     <title>Student+</title>
   </head>
@@ -13,14 +15,69 @@
 
   
 
-    <ul id="navbar">
-        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span> Start</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-sticky-note"></i><span> Notatki+</span></a></li>
-        <li class="nav-item"><a href="kalendarz.html"><i class="fas fa-calendar-alt"></i><span> Kalendarz+</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-tasks"></i><span> Zadania+</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-user"></i><span> Wykładowcy+</span></a></li>
-        <li class="nav-login"><a href="reglogin.html"><i class="fas fa-sign-in-alt"></i><span> Zaloguj+</span></a></li>
-    </ul>
+    <div class="sidebar">
+        <div class="logo-details">
+          <i class='bx bxs-graduation icon'></i>
+          <div class="logo_name">Student+</div>
+          <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="index.html">
+              <i class='bx bx-home'></i>
+              <span class="links_name">Strona główna+</span>
+            </a>
+            <span class="tooltip">S+</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class='bx bx-note'></i>
+              <span class="links_name">Notatki+</span>
+            </a>
+            <span class="tooltip">N+</span>
+          </li>
+          <li>
+            <a href="kalendarz.html">
+              <i class='bx bx-calendar-plus'></i>
+              <span class="links_name">Kalendarz+</span>
+            </a>
+            <span class="tooltip">K+</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class='bx bx-task'></i>
+              <span class="links_name">Zadania+</span>
+            </a>
+            <span class="tooltip">Z+</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class='bx bx-face'></i>
+              <span class="links_name">Wykładowcy+</span>
+            </a>
+            <span class="tooltip">W+</span>
+          </li>
+          <li>
+            <a href="reglogin.html">
+              <i class='bx bx-log-in'></i>
+              <span class="links_name">Zaloguj+</span>
+            </a>
+            <span class="tooltip">Z+</span>
+            </li>
+            <li class="profile">
+              <div class="profile-details">
+                <div class="name_job">
+                  <div class="job">Student+ <br> P3D3N</div>
+                </div>
+              </div>
+  
+            </li>
+        </ul>
+      </div>
+      <section class="home-section">
+        <div class="text"></div>
+
+
 
     <div class="wrapper">
     	<span class="icon-close">
@@ -41,12 +98,14 @@
      			</div>
      			<div class="remember-forgot">
      				<label><input type="checkbox">Zapamiętaj mnie</label>
-     				<a href="#">Zapomniałeś/aś hasła?</a>
      			</div>
+				 <div class="remember-forgot">	
+					<a href="#"><br>Zapomniałeś/aś hasła?</a>
+				</div>
      			
      			<button type="submit" class="btn">Login</button>
      			<div class="login-register">
-     				<p>Nie masz konta? <a href="#" class="register-link">Zarejestruj się</a></p>
+     				<p>Nie masz konta? <a href="#" class="register-link"><br>Zarejestruj się</a></p>
      			</div>
      			
      		</form>
@@ -68,7 +127,7 @@
      			<div class="input-box">
      				<span class="icon"><ion-icon name="mail"></ion-icon></span>
      				<input type="email" required>
-     				<label>E-mail</label>
+     				<label>E-mail<br></label>
      			</div>
      			<div class="input-box">
      				<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
@@ -76,13 +135,13 @@
      				<label>Hasło</label>
      			</div>
      			<div class="remember-forgot">
-     				<label><input type="checkbox">Zapoznałem/am się z regulaminem</label>
+     				<label><br> <input type="checkbox">Zapoznałem/am się z regulaminem </label>
      				
      			</div>
      			
      			<button type="submit" class="btn">Rejestruj</button>
      			<div class="login-register">
-     				<p>Masz już konto? <a href="#" class="login-link">Zaloguj się</a></p>
+     				<p>Masz już konto? <a href="#" class="login-link"><br>Zaloguj się</a></p>
      			</div>
      			
      		</form>
@@ -94,7 +153,9 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+</section>
 
+<script src="sidebar.js"></script>
 
 
 

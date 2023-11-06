@@ -1,7 +1,7 @@
 var cal = {
   // opcje
   // flagi i daty
-  sMon : false, // zaczynać miesiąc poniedziałkiem?
+  sMon : true, // zaczynać miesiąc poniedziałkiem?
   data : null, // zdarzenia na zaznaczony okres
   sDay : 0, sMth : 0, sYear : 0, // zaznaczony dzien miesiac rok
 
@@ -10,7 +10,7 @@ var cal = {
     "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
     "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
   ],
-  days : ["Nd", "Pon", "Wt", "Śr", "Czw", "Pt", "Sb"],
+  days : ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
 
   // HTML
   hMth : null, hYear : null, // miesiac/rok

@@ -13,24 +13,26 @@ body {
 }
 
 :root {
-  --bg-color-a: #a6008ab8; /* nagłówek + formularze */
-  --bg-color-b: #dfdfdf; /* nagłówek kalendarza */
-  --bg-color-c: #5c0045; /* przyciski */
+  --bg-color-a: #00180f; /* nagłówek + formularze */
+  --bg-color-b: #005a37; /* nagłówek kalendarza */
+  --bg-color-c: #004329; /* przyciski */
 }
 .hide { display: none !important; }
 
 /* (B) Wybieranie dat */
 #calPeriod {
+  text-align: center;
   padding: 15px;
   background: var(--bg-color-a);
 }
 #calPeriod input, #calPeriod select {
+  
   font-size: 24px;
   border: 0; outline: none;
-  color: #ffcffb; background: 0;
+  color: #ffffff; background: 0;
   cursor: pointer;
 }
-#calPeriod option { color: #000; }
+#calPeriod option { color: #000000; }
 #calYear {
   width: 100px;
   margin-left: 10px;
@@ -42,27 +44,28 @@ body {
 
 /* nagłówek - nazwy dni */
 .calHead .calCell {
-  color: #820077; background: var(--bg-color-b);
+  color: #ffffff; background: var(--bg-color-b);
   font-weight: 700; text-align: center;
   padding: 15px 0;
 }
 
 /* body - indywidualne dni */
-.calBlank { background: #eee; }
-.calToday { background: #ffa4fa; }
-.calToday .cellDate { color: #000000; }
+.calBlank { background: #5d776d; } 
+.calToday { background: #005a37; }
+.calToday .cellDate { color: #ffffff; }
 .calBody .calCell {
-  border: 1px solid #f5f5f5;
+  border: 1px solid #f5f5f56e;
   min-height: 80px;
 }
 .cellDate, .evt { padding: 5px; }
 .cellDate {
   font-size: 14px;
   font-weight: 700;
-  color: #35002d;
+  color: #000000;
 }
 .evt {
-  font-size: 14px;
+  color: #ffff;
+  font-size: 20px;
   white-space: nowrap; text-overflow: ellipsis;
   overflow: hidden;
   cursor: pointer;
@@ -73,7 +76,7 @@ body {
   position: absolute; top: 0; left: 0; z-index: 999;
   width: 100vw; height: 100%; min-height: 100vh;
   padding: 0; margin: 0; border: 0;
-  background: rgba(0,0,0,0.5);
+  background: #005a3800;
 }
 #calForm:is([open]) {
   display: flex; flex-wrap: wrap;
@@ -83,21 +86,21 @@ body {
   position: relative;
   width: 450px; padding: 15px;
   border-radius: 10px;
-  background: #ffd5f5;
+  background: #002e1c;
 }
 #evtClose {
   position: absolute;
   top: 0; right: 0;
   padding: 10px;
-  color: #5c0045;
+  color: #ffffff;
   font-size: 28px;
   font-weight: 700;
   cursor: pointer;
 }
-#calForm h2 { margin: 0 0 15px 0; }
+#calForm h2 { margin: 0 0 15px 0; color: #ffff; }
 #calForm label, #calForm input[type=text], #calForm textarea { width: 100%; }
 #calForm label {
-  color: #a1a1a1;
+  color: #ffffff;
   font-weight: 700;
   font-size: 12px;
   margin-bottom: 5px;

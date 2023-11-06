@@ -3,26 +3,80 @@
   <head>
     <title>Kalendarz+</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link href="kalendarz.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="index.css">
     <script defer src="kalendarz.js"></script>
   </head>
   <body>
 
-  </div>
-  <ul id="navbar">
-      <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span> Start</span></a></li>
-      <li class="nav-item"><a href="#"><i class="fas fa-sticky-note"></i><span> Notatki+</span></a></li>
-      <li class="nav-item"><a href="kalendarz.html"><i class="fas fa-calendar-alt"></i><span> Kalendarz+</span></a></li>
-      <li class="nav-item"><a href="#"><i class="fas fa-tasks"></i><span> Zadania+</span></a></li>
-      <li class="nav-item"><a href="#"><i class="fas fa-user"></i><span> Wykładowcy+</span></a></li>
-      <li class="nav-login"><a><i class="fas fa-sign-in-alt"></i><span> Zaloguj+</span></a></li>
-  </ul>
+    <div class="sidebar">
+      <div class="logo-details">
+        <i class='bx bxs-graduation icon'></i>
+        <div class="logo_name">Student+</div>
+        <i class='bx bx-menu' id="btn"></i>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span class="links_name">Strona główna+</span>
+          </a>
+          <span class="tooltip">S+</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-note'></i>
+            <span class="links_name">Notatki+</span>
+          </a>
+          <span class="tooltip">N+</span>
+        </li>
+        <li>
+          <a href="kalendarz.html">
+            <i class='bx bx-calendar-plus'></i>
+            <span class="links_name">Kalendarz+</span>
+          </a>
+          <span class="tooltip">K+</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-task'></i>
+            <span class="links_name">Zadania+</span>
+          </a>
+          <span class="tooltip">Z+</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-face'></i>
+            <span class="links_name">Wykładowcy+</span>
+          </a>
+          <span class="tooltip">W+</span>
+        </li>
+        <li>
+          <a href="reglogin.html">
+            <i class='bx bx-log-in'></i>
+            <span class="links_name">Zaloguj+</span>
+          </a>
+          <span class="tooltip">Z+</span>
+        </li>
+        <li class="profile">
+          <div class="profile-details">
+            <div class="name_job">
+              <div class="job">Student+ <br> P3D3N</div>
+            </div>
+          </div>
 
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    
+        </li>
+      </ul>
+    </div>
+
+
+
+
+
+ 
     <!-- ############ KALENDARZ ############ -->
-    <section class="section1">
+    <section class="home-section">
     <!-- Wybieranie dat -->
     <div id="calPeriod">
       <input id="calBack" type="button" value="&lt;">
@@ -46,7 +100,10 @@
       <input id="evtDel" type="button" value="Usuń">
       <input id="evtSave" type="submit" value="Zapisz">
     </form></dialog>
-
+  </div>
 </section>
+
+<script src="sidebar.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
   </body>
 </html>
