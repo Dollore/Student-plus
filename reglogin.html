@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css"> 
     <link rel="stylesheet" type="text/css" href="reglogin.css">
-	<link rel="stylesheet" type="text/css" href="text.css">
+	  <link rel="stylesheet" type="text/css" href="text.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-	<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+	  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 
-    <title>Student+</title>
+    <title>Zaloguj+</title>
   </head>
   <body>
 
-  
+   <!-- SIDEBAR -->
 
     <div class="sidebar">
         <div class="logo-details">
@@ -44,7 +44,7 @@
             <span class="tooltip">K+</span>
           </li>
           <li>
-            <a href="#">
+            <a href="zadania.html">
               <i class='bx bx-task'></i>
               <span class="links_name">Zadania+</span>
             </a>
@@ -74,10 +74,13 @@
             </li>
         </ul>
       </div>
+
+      <!-- SIDEBAR KONIEC -->
+
       <section class="home-section">
         <div class="text"></div>
 
-
+<!-- Logowanie/Rejestracja -->
 
     <div class="wrapper">
     	<span class="icon-close">
@@ -97,10 +100,10 @@
      				<label>Hasło</label>
      			</div>
      			<div class="remember-forgot">
-     				<label><input type="checkbox">Zapamiętaj mnie</label>
+     				<label><input type="checkbox"> Zapamiętaj mnie</label>
      			</div>
 				 <div class="remember-forgot">	
-					<a href="#"><br>Zapomniałeś/aś hasła?</a>
+					<a href="#"><br> Zapomniałaś/eś hasła?</a>
 				</div>
      			
      			<button type="submit" class="btn">Login</button>
@@ -135,8 +138,7 @@
      				<label>Hasło</label>
      			</div>
      			<div class="remember-forgot">
-     				<label><br> <input type="checkbox">Zapoznałem/am się z regulaminem </label>
-     				
+     				<label><br><input type="checkbox"> Akceptuję regulamin </label>		
      			</div>
      			
      			<button type="submit" class="btn">Rejestruj</button>
@@ -153,13 +155,20 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+  <!-- Tryb ciemniejszy/jaśniejszy -->
+
+  <div class="text">
+    <div class="button-container">
+    <button class="color-button">
+          <i class='bx bxs-sun icon'></i>
+        </div>
+          </div>
+    </button></div>
+</section>
+
 </section>
 
 <script src="sidebar.js"></script>
-
-
-
-<!--     <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
-
+<script src="lightdark.js"></script>
 </body>
 </html>

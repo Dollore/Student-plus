@@ -10,8 +10,9 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
-    titleBarStyle: 'default',
-    autoHideMenuBar: 'true' ,
+   // titleBarStyle: 'default',
+    titleBarStyle: 'customButtonsOnHover',
+    autoHideMenuBar: 'true',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }

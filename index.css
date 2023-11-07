@@ -225,6 +225,35 @@
   font-weight: 500;
   margin: 18px;
 }
+body {
+  transition: background-color 1s;
+}
+.button-container {
+  text-align: center;
+}
+.color-button {
+  position: absolute;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 36px;
+  bottom: 0;
+  right: 0;
+  margin: 24px;
+  box-shadow: 4px 4px 25px 2px;
+}
+.light-mode {
+  background-color: #ffffff00;
+}
+.dark-mode {
+  background-color: #00000087;
+}
+.icon::before {
+  content: ""; 
+}
+.dark-mode .icon::before {
+  content: icon; 
+}
 @media (max-width: 420px) {
   .sidebar li .tooltip {
     display: none;
