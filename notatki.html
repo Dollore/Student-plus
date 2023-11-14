@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="index.css">
+<head>
+	<title>Notatki+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="text.css">
+    <link rel="stylesheet" type="text/css" href="notatki.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.ckeditor.com/4.16.1/standard-all/ckeditor.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-
-    <title>Student+</title>
-  </head>
-  <body>
-
-  <!-- Główne okno -->
-
-    <section class="home-section">
-      <div class="text"></div>
-      <div class="text">
-          <p>Student+" będzie aplikacją przeznaczoną dla studentów uczelni wyższych. Głównym celem aplikacji będzie wspomaganie studentów w nauce, planowaniu oraz zarządzaniu czasem. Z tego powodu funkcjonalność aplikacji została podzielona na trzy główne obszary:
-    
-            System zarzadzania notatkami – mający na celu ułatwienie prowadzenia notatek z zajęć.<br><br> Studenci będą mogli tworzyć edytować oraz przechowywać notatki jak i również udostępniać je wybranym osobom. Notatki będą mogły zostać wykorzystane do późniejszej nauki w trakcie trwania semestru.
-            
-            System zarządzania zadaniami - umożliwiający tworzenie listy zadań, rozłożenie ich w czasie oraz dający możliwość nadania poziomu priorytetu. Pozwoli to na efektywne rozłożenie obowiązków. <br><br>
-            
-            Kalendarz – pozwalający na planowanie czasu, studenci będą mieli możliwość dodawania wydarzeń i przypomnień. Ma on za zadanie ułatwić planowanie czasu wolnego jak i tego przeznaczonego na naukę czy prace.
-            
-            <br><br>Student+ to wszechstronne narzędzie, które nie tylko usprawnia proces nauki, ale może również prowadzić do poprawy wyników w nauce, zwiększenia systematyczności oraz zmniejszenia stresu spowodowanego nakładem obowiązków studenckich.</p>
-        </div>
-
-  <!-- Tryb ciemniejszy/jaśniejszy -->
-
-        <div class="text">
-          <div class="button-container">
-          <button class="color-button">
-                <i class='bx bxs-sun icon'></i>
-              </div>
-                </div>
-          </button></div>
-    </section>
   
-  <!-- SIDEBAR -->
+</head>
 
-    <div class="sidebar">
+<!-- FORMA NOTATEK -->
+<body class="mainbody2">
+    <div class="container my-3" id="form">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Dodaj notatkę</h5>
+                <div class="form-group">
+                    <textarea class="form-control" id="addTitle" rows="1" placeholder="Wpisz tytuł"></textarea>
+                    <br>
+                    <textarea class="form-control" id="addTxt" rows="10" placeholder="Zacznij pisać"></textarea>
+                </div>
+                <button class="btn btn-success" id="addBtn">Dodaj notatkę</button>
+                <button class="btn btn-danger" id="clearAll">Resetuj</button>
+            </div>
+        </div>
+        <hr>
+        <h1 id="Heading">Twoje notatki</h1>
+        <hr>
+        <div id="notes"> </div>
+    </div>
+</body>
+<body>
+
+      <!-- SIDEBAR -->
+
+      <div class="sidebar">
         <div class="logo-details">
           <i class='bx bxs-graduation icon'></i>
           <div class="logo_name">Student+</div>
@@ -102,8 +100,19 @@
       </div>
 
       <!-- SIDEBAR KONIEC -->
-      
-      <script src="sidebar.js"></script>
-      <script src="lightdark.js"></script>
-  </body>
+
+    <script>
+        CKEDITOR.replace('addTxt', {
+          extraPlugins: 'editorplaceholder',
+          editorplaceholder: 'Zacznij pisać.. ',
+          uiColor:'#82c9ae'
+        });
+
+      </script>
+    <script src="notatki.js"></script>
+    <script src="sidebar.js"></script>
+    <script src="lightdark.js"></script>
+    
+</body>
+
 </html>
