@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="text.css">
-    <link rel="stylesheet" href="zadania.css">
+    <link rel="stylesheet" href="zadania.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <title>Zadania+</title>
@@ -75,10 +75,41 @@
       <!-- SIDEBAR KONIEC -->
 
       <section class="home-section">
-        <button class="list-add">Nowa lista!</button>
-            <div class="task-main">
-                <!-- tu tworza sie listy zadan -->
+        
+        <div class="header">
+          <h1>Listy Zadań</h1>
+          <form id="new-list-form">
+            <input type="text" id="new-list-input" placeholder="Nazwa listy">
+            <input type="submit" value="Dodaj listę!" id="new-list-submit">
+          </form>
+        </div>
+
+        <section class="main">
+          <!-- <div class="task-list">
+            <form id="new-task-form">
+              <h2>Nazwa Listy</h2>
+              <input type="submit" id="new-task-submit" value="Dodaj Zadanie!">
+            </form>
+            <div id="tasks">
+              <div class="task">
+                <div class="content">
+                  <input type="text" class="text" value="moje zadanie" readonly>
+                </div>
+                <div class="actions">
+                  <button class="edit">Edytuj</button>
+                  <button class="delete">Usuń</button>
+                </div>
+              </div>
             </div>
+
+          </div> -->
+
+        </section>
+
+        </div>
+      </section>
+        
+           
 
 
 
