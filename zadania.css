@@ -9,6 +9,8 @@
 
 }
 
+
+
 .header{
     padding: 2rem 1rem;
     max-width: 800px;
@@ -83,6 +85,7 @@ input, button{
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
+    height: 100%;
 }
 
 
@@ -91,11 +94,13 @@ input, button{
     padding: 1rem;
     border: 1px solid black;
     border-radius: 1rem;
+    margin-bottom: 25px;
 }
+
 
 .task-list h2, #new-task-submit{
     font-size: 1.5rem;
-    color: var(--grey);
+    color: white;
     margin-bottom: 1rem;
 
 }
@@ -103,7 +108,7 @@ input, button{
 #tasks .task{
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkest);
+    background-color: #005a395a;
     padding: 1rem;
     border-radius: 1rem;
     margin-bottom: 1rem;
@@ -120,7 +125,7 @@ input, button{
 }
 
 #tasks .task .content .text:not(:read-only){
-    color: var(--pink);
+    color: white;
 }
 
  #tasks .task .actions {

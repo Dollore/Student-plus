@@ -48,7 +48,7 @@ function addNewTaskListener(formId, containerId) {
           newTaskInput.readOnly = true;
 
           // Przypisz style bezpośrednio do nowego zadania
-          newTask.style.backgroundColor = "#1f2937";
+          newTask.style.backgroundColor = "#ddd";
           newTask.style.color = "white";
           newTask.style.padding = "1rem";
           newTask.style.borderRadius = "1rem";
