@@ -1,0 +1,70 @@
+.mainbody{
+	vertical-align: center;
+	align-content: center;
+	background-size: cover;
+}
+
+#addTxt{
+	border-radius: 10px;
+
+}
+#nothing{
+	text-align: center;
+}
+.mainbody2{
+	background-color: #609983;
+}
+.container my-3{
+	background-color: rgb(137, 197, 137);
+}
+#Heading{
+	text-align: center;
+}
+
+.display-4{
+	text-align: center;
+}
+.card-footer{
+	font-size:medium;
+	font-style: italic;
+	display: block;
+	text-align: right;
+    
+}
+
+.card{
+    opacity: 0.85;
+    margin: 2em;
+    background-color: black;
+    color: black;
+}
+
+.btn{
+    margin-left: 0.25em;
+}
+.dis{
+    border: 0.5mm solid black;
+    /* border-radius: 50%; */
+}
+h1{
+    color: black;
+}
+h1:hover{
+    color:rgb(34, 34, 34);
+}
+h3{
+    margin: 0.25em;
+    display: inline;
+}
+h5{
+    color:black;
+}
+
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+

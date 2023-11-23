@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Notatki+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="../css/text.css">
+  <link rel="stylesheet" type="text/css" href="../css/notatki.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.ckeditor.com/4.16.1/standard-all/ckeditor.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+</head>
+
+<!-- FORMA NOTATEK -->
+
+<body class="mainbody2">
+  <div id="sidebarId" class="sidebar"></div>
+  <div class="container my-3" id="form">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Dodaj notatkę</h5>
+        <div class="form-group">
+          <textarea class="form-control" id="addTitle" rows="1" placeholder="Wpisz tytuł"></textarea>
+          <br>
+          <textarea class="form-control" id="addTxt" rows="10" placeholder="Zacznij pisać"></textarea>
+        </div>
+        <button class="btn btn-success" id="addBtn">Dodaj notatkę</button>
+        <button class="btn btn-danger" id="clearAll">Resetuj</button>
+      </div>
+    </div>
+    <hr>
+    <h1 id="Heading">Twoje notatki</h1>
+    <hr>
+    <div id="notes"> </div>
+    
+  </div>
+  
+  <script>
+    CKEDITOR.replace('addTxt', {
+      extraPlugins: 'editorplaceholder',
+      editorplaceholder: 'Zacznij pisać.. ',
+      uiColor: '#82c9ae'
+    });
+  
+  </script>
+  <script src="../js/loadSidebar.js"></script>
+  <script src="../js/notatki.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/lightdark.js"></script>
+
+</body>
+
+</html>

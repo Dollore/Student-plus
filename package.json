@@ -11,5 +11,8 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "electron": "^27.0.2"
+  },
+  "dependencies": {
+    "firebase": "^10.6.0"
   }
 }

@@ -14,13 +14,13 @@ const createWindow = () => {
     titleBarStyle: 'customButtonsOnHover',
     autoHideMenuBar: 'true',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'js/preload.js')
     }
 
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('html/index.html')
 
   // Open the DevTools.
  // mainWindow.webContents.openDevTools()

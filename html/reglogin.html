@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/index.css"> 
+    <link rel="stylesheet" type="text/css" href="../css/reglogin.css">
+	  <link rel="stylesheet" type="text/css" href="../css/text.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+	  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
+    <title>Zaloguj+</title>
+  </head>
+  <body>
+
+    <div id="sidebarId" class="sidebar"></div>
+<!-- Logowanie/Rejestracja -->
+<section class="home-section">
+  <div class="text"></div>
+  <div class="text">
+<div class="login-status" id="loginStatus">
+  <!-- Content to display when logged in -->
+  <p id="userStatus">Logged in as:</p>
+  <p id="userEmail"></p>
+  <a href="#" id="logoutLink" onclick="logoutUser()">Wyloguj</a>
+</div>
+
+    <div class="wrapper">
+    	<span class="icon-close">
+    		<ion-icon name="close"></ion-icon>
+    	</span>
+     	<div class="form-box login">
+     		<h2>Zaloguj się</h2>
+     		<form action="#">
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="mail"></ion-icon></span>
+     				<input type="email" required>
+     				<label>E-mail</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+     				<input type="password" required>
+     				<label>Hasło</label>
+     			</div>
+     			<div class="remember-forgot">
+     				<label><input type="checkbox"> Zapamiętaj mnie</label>
+     			</div>
+				 <div class="remember-forgot">	
+					<a href="#"><br> Zapomniałaś/eś hasła?</a>
+				</div>
+     			
+     			<button type="submit" class="btn">Login</button>
+     			<div class="login-register">
+     				<p>Nie masz konta? <a href="#" class="register-link"><br>Zarejestruj się</a></p>
+     			</div>
+     			
+     		</form>
+     	</div>
+     	
+     	<div class="form-box register">
+     		<h2>Zarejestruj się</h2>
+     		<form action="#">
+     		<div class="input-box">
+     				<span class="icon"><ion-icon name="person"></ion-icon></span>
+     				<input type="text" required>
+     				<label>Imię</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="person"></ion-icon></span>
+     				<input type="text" required>
+     				<label>Nazwisko</label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="mail"></ion-icon></span>
+     				<input type="email" required>
+     				<label>E-mail<br></label>
+     			</div>
+     			<div class="input-box">
+     				<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+     				<input type="password" required>
+     				<label>Hasło</label>
+     			</div>
+     			<div class="remember-forgot">
+     				<label><br><input type="checkbox"> Akceptuję regulamin </label>		
+     			</div>
+     			
+     			<button type="submit" class="btn">Rejestruj</button>
+     			<div class="login-register">
+     				<p>Masz już konto? <a href="#" class="login-link"><br>Zaloguj się</a></p>
+     			</div>
+     			
+     		</form>
+     	</div>
+      
+    </div>
+    <script src="../js/loadSidebar.js"></script>
+    <script src="../js/reglogin.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Tryb ciemniejszy/jaśniejszy -->
+
+  <div class="text">
+    <div class="button-container">
+    <button class="color-button">
+          <i class='bx bxs-sun icon'></i>
+        </div>
+          </div>
+    </button></div>
+</section>
+
+
+
+<script src="../js/sidebar.js"></script>
+<script src="../js/lightdark.js"></script>
+</body>
+</html>
