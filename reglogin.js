@@ -66,42 +66,42 @@ var firebaseConfig = {
 	const loginStatusDiv = document.getElementById('loginStatus');
   
 	if (user) {
-	  // User is signed in
+	  // Zalogowany uzytkownik
 	  userStatusContainer.textContent = 'Zalogowano jako:';
 	  userEmailContainer.textContent = user.email;
   
-	  // Show the login status div
+	  // Wlaczenie diva uzytkownika
 	  loginStatusDiv.style.visibility = 'visible';
 	  loginStatusDiv.style.display = 'block';
   
-	  // Show the logout link
+	  // Wlaczenie linka logoutu
 	  logoutLink.style.display = 'block';
   
-	  // Hide the wrapper
+	  // Ukrycie formy rejestracji
 	  wrapper.style.display = 'none';
 	} else {
-	  // No user is signed in
+	  // Bez zalogowania
 	  userStatusContainer.textContent = '';
 	  userEmailContainer.textContent = '';
   
-	  // Hide the login status div
+	  // Ukrycie diva zalogowanego
 	  loginStatusDiv.style.display = 'none';
   
-	  // Hide the logout link
+	  // Ukrycie logoutu
 	  logoutLink.style.display = 'none';
   
-	  // Show the wrapper
+	  // Pokazanie formy
 	  wrapper.style.display = 'flex';
 	}
   });
   
-  // Function to logout the user
+  // Logout
   function logoutUser() {
 	firebase.auth().signOut().then(function () {
-	  // Sign-out successful.
+	  // Poprawny
 	  console.log('User signed out');
 	}).catch(function (error) {
-	  // An error happened.
+	  // Error
 	  console.error('Error during logout:', error);
 	});
   }
