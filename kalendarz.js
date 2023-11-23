@@ -151,7 +151,7 @@ var cal = {
     const user = firebase.auth().currentUser;
 
     if (user) {
-      // User is signed in
+      // Zalogowany
       const userEmail = user.email;
 
       const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
@@ -167,7 +167,7 @@ var cal = {
           console.error("Error writing document: ", error);
         });
     } else {
-      // No user is signed in
+      // Brak zalogowanego usera
       console.error('User not signed in');
     }
 
