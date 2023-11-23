@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link href="kalendarz.css" rel="stylesheet">
     <script defer src="kalendarz.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
   </head>
   <body>
+
+
 
   <!-- SIDEBAR -->
 
@@ -27,7 +32,7 @@
           <span class="tooltip">S+</span>
         </li>
         <li>
-          <a href="#">
+          <a href="notatki.html">
             <i class='bx bx-note'></i>
             <span class="links_name">Notatki+</span>
           </a>
@@ -77,33 +82,34 @@
 
     <section class="home-section">
 
-    <!-- Wybieranie dat -->
-
-    <div id="calPeriod">
-      <input id="calBack" type="button" value="&lt;">
-      <select id="calMonth"></select>
-      <input type="number" id="calYear">
-      <input id="calNext" type="button" value="&gt;">
+      <!-- Wybieranie dat -->
+  
+      <div id="calPeriod">
+        <input id="calBack" type="button" value="&lt;">
+        <select id="calMonth"></select>
+        <input type="number" id="calYear">
+        <input id="calNext" type="button" value="&gt;">
+      </div>
+  
+      <!-- Kalendarz -->
+  
+      <div id="calWrap"></div>
+  
+      <!-- Zdarzenia -->
+  
+      <dialog id="calForm"><form method="dialog">
+        <div id="evtClose">X</div>
+        <h2>Wydarzenie</h2>
+        <label>Data</label>
+        <input type="text" id="evtDate" readonly>
+        <label>Informacje</label>
+        <textarea id="evtTxt" required></textarea>
+  
+        <input id="evtDel" type="button" value="Usuń">
+        <input id="evtSave" type="submit" value="Zapisz">
+      </form></dialog>
     </div>
 
-    <!-- Kalendarz -->
-
-    <div id="calWrap"></div>
-
-    <!-- Zdarzenia -->
-
-    <dialog id="calForm"><form method="dialog">
-      <div id="evtClose">X</div>
-      <h2>Wydarzenie</h2>
-      <label>Data</label>
-      <input type="text" id="evtDate" readonly>
-      <label>Informacje</label>
-      <textarea id="evtTxt" required></textarea>
-
-      <input id="evtDel" type="button" value="Usuń">
-      <input id="evtSave" type="submit" value="Zapisz">
-    </form></dialog>
-  </div>
   
   <!-- Tryb ciemniejszy/jaśniejszy -->
 

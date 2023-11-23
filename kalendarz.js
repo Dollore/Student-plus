@@ -1,26 +1,19 @@
 var cal = {
-  // opcje
-  // flagi i daty
-  sMon : true, // zaczynać miesiąc poniedziałkiem?
-  data : null, // zdarzenia na zaznaczony okres
-  sDay : 0, sMth : 0, sYear : 0, // zaznaczony dzien miesiac rok
-
-  // miesiące i dni
-  months : [
+  sMon: true,
+  data: null,
+  sDay: 0, sMth: 0, sYear: 0,
+  months: [
     "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
     "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
   ],
-  days : ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
+  days: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
+  hMth: null, hYear: null,
+  hWrap: null,
+  hFormWrap: null, hForm: null,
+  hfDate: null, hfTxt: null, hfDel: null,
+  db: null,
 
-  // HTML
-  hMth : null, hYear : null, // miesiac/rok
-  hWrap : null, // wrapper
-  hFormWrap : null, hForm : null, // zdarzenie forma
-  hfDate : null, hfTxt : null, hfDel : null, // pola forma
-
-  // kalendarz
-  init : () => {
-    // getHTML
+  init: function () {
     cal.hMth = document.getElementById("calMonth");
     cal.hYear = document.getElementById("calYear");
     cal.hWrap = document.getElementById("calWrap");
@@ -30,33 +23,27 @@ var cal = {
     cal.hfTxt = document.getElementById("evtTxt");
     cal.hfDel = document.getElementById("evtDel");
 
-    // miesiace/lata
     let now = new Date(), nowMth = now.getMonth();
     cal.hYear.value = parseInt(now.getFullYear());
-    for (let i=0; i<12; i++) {
+    for (let i = 0; i < 12; i++) {
       let opt = document.createElement("option");
       opt.value = i;
       opt.innerHTML = cal.months[i];
-      if (i==nowMth) { opt.selected = true; }
+      if (i == nowMth) { opt.selected = true; }
       cal.hMth.appendChild(opt);
     }
 
-    // kontrolki
     cal.hMth.onchange = cal.draw;
     cal.hYear.onchange = cal.draw;
-    document.getElementById("calBack").onclick = () => cal.pshift();
-    document.getElementById("calNext").onclick = () => cal.pshift(1);
     cal.hForm.onsubmit = cal.save;
     document.getElementById("evtClose").onclick = () => cal.hFormWrap.close();
     cal.hfDel.onclick = cal.del;
 
-    // rysowanie kalendarza
     if (cal.sMon) { cal.days.push(cal.days.shift()); }
     cal.draw();
   },
 
-  // nastepny miesiac
-  pshift : forward => {
+  pshift: function (forward) {
     cal.sMth = parseInt(cal.hMth.value);
     cal.sYear = parseInt(cal.hYear.value);
     if (forward) { cal.sMth++; } else { cal.sMth--; }
@@ -67,58 +54,23 @@ var cal = {
     cal.draw();
   },
 
-  // rysuj dla danego miesiaca
-  draw : () => {
-    // wyliczenia miesiecy
-    cal.sMth = parseInt(cal.hMth.value); // wybrany miesiac
-    cal.sYear = parseInt(cal.hYear.value); // wybrany rok
-    let daysInMth = new Date(cal.sYear, cal.sMth+1, 0).getDate(), // liczba dni w miesiacu
-        startDay = new Date(cal.sYear, cal.sMth, 1).getDay(), // pierwszy dzien miesiaca
-        endDay = new Date(cal.sYear, cal.sMth, daysInMth).getDay(), // ostatni dzien miesiaca
-        now = new Date(), // dzisiejszy dzien
-        nowMth = now.getMonth(), // obecny miesiac
-        nowYear = parseInt(now.getFullYear()), // obecny rok
-        nowDay = cal.sMth==nowMth && cal.sYear==nowYear ? now.getDate() : null ;
+  draw: function () {
+    cal.sMth = parseInt(cal.hMth.value);
+    cal.sYear = parseInt(cal.hYear.value);
+    let daysInMth = new Date(cal.sYear, cal.sMth + 1, 0).getDate(),
+      startDay = new Date(cal.sYear, cal.sMth, 1).getDay(),
+      endDay = new Date(cal.sYear, cal.sMth, daysInMth).getDay(),
+      now = new Date(),
+      nowMth = now.getMonth(),
+      nowYear = parseInt(now.getFullYear()),
+      nowDay = cal.sMth == nowMth && cal.sYear == nowYear ? now.getDate() : null;
 
-    // wczytaj dane z locala
-    cal.data = localStorage.getItem("cal-" + cal.sMth + "-" + cal.sYear);
-    if (cal.data==null) {
-      localStorage.setItem("cal-" + cal.sMth + "-" + cal.sYear, "{}");
-      cal.data = {};
-    } else { cal.data = JSON.parse(cal.data); }
-
-    // wyliczenia
-    // puste kratki przed miesiacem
-    let squares = [];
-    if (cal.sMon && startDay != 1) {
-      let blanks = startDay==0 ? 7 : startDay ;
-      for (let i=1; i<blanks; i++) { squares.push("b"); }
-    }
-    if (!cal.sMon && startDay != 0) {
-      for (let i=0; i<startDay; i++) { squares.push("b"); }
-    }
-
-    // dni miesiaca
-    for (let i=1; i<=daysInMth; i++) { squares.push(i); }
-
-    // puste kratki po koncu miesiaca
-    if (cal.sMon && endDay != 0) {
-      let blanks = endDay==6 ? 1 : 7-endDay;
-      for (let i=0; i<blanks; i++) { squares.push("b"); }
-    }
-    if (!cal.sMon && endDay != 6) {
-      let blanks = endDay==0 ? 6 : 6-endDay;
-      for (let i=0; i<blanks; i++) { squares.push("b"); }
-    }
-
-    // resetowanie kalendarza
     cal.hWrap.innerHTML = `<div class="calHead"></div>
     <div class="calBody">
       <div class="calRow"></div>
     </div>`;
 
-    // nagłówek - nazwy dni
-    wrap = cal.hWrap.querySelector(".calHead");
+    let wrap = cal.hWrap.querySelector(".calHead");
     for (let d of cal.days) {
       let cell = document.createElement("div");
       cell.className = "calCell";
@@ -126,26 +78,52 @@ var cal = {
       wrap.appendChild(cell);
     }
 
-    // body - indywidualne dni i zdarzenia
     wrap = cal.hWrap.querySelector(".calBody");
-    row = cal.hWrap.querySelector(".calRow");
-    for (let i=0; i<squares.length; i++) {
-      // generowanie komórki
+    let row = cal.hWrap.querySelector(".calRow");
+    let squares = [];
+    if (cal.sMon && startDay != 1) {
+      let blanks = startDay == 0 ? 7 : startDay;
+      for (let i = 1; i < blanks; i++) { squares.push("b"); }
+    }
+    if (!cal.sMon && startDay != 0) {
+      for (let i = 0; i < startDay; i++) { squares.push("b"); }
+    }
+
+    for (let i = 1; i <= daysInMth; i++) { squares.push(i); }
+
+    if (cal.sMon && endDay != 0) {
+      let blanks = endDay == 6 ? 1 : 7 - endDay;
+      for (let i = 0; i < blanks; i++) { squares.push("b"); }
+    }
+    if (!cal.sMon && endDay != 6) {
+      let blanks = endDay == 0 ? 6 : 6 - endDay;
+      for (let i = 0; i < blanks; i++) { squares.push("b"); }
+    }
+
+    for (let i = 0; i < squares.length; i++) {
       let cell = document.createElement("div");
       cell.className = "calCell";
-      if (nowDay==squares[i]) { cell.classList.add("calToday"); }
-      if (squares[i]=="b") { cell.classList.add("calBlank"); }
+      if (nowDay == squares[i]) { cell.classList.add("calToday"); }
+      if (squares[i] == "b") { cell.classList.add("calBlank"); }
       else {
         cell.innerHTML = `<div class="cellDate">${squares[i]}</div>`;
-        if (cal.data[squares[i]]) {
-          cell.innerHTML += "<div class='evt'>" + cal.data[squares[i]] + "</div>";
-        }
-        cell.onclick = () => { cal.show(cell); };
+        const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(squares[i].toString());
+        dayDocRef.get().then((dayDoc) => {
+          if (dayDoc.exists) {
+            const eventData = dayDoc.data().event;
+            if (eventData) {
+              cell.innerHTML += "<div class='evt'>" + eventData + "</div>";
+            }
+          }
+        });
+
+        (function (day) {
+          cell.onclick = function () { cal.show(day); };
+        })(squares[i]);
       }
       row.appendChild(cell);
 
-      // następny rząd
-      if (i!=(squares.length-1) && i!=0 && (i+1)%7==0) {
+      if (i != (squares.length - 1) && i != 0 && (i + 1) % 7 == 0) {
         row = document.createElement("div");
         row.className = "calRow";
         wrap.appendChild(row);
@@ -153,33 +131,77 @@ var cal = {
     }
   },
 
-  // pokaz zdarzenia z dni
-  show : cell => {
+  show: function (day) {
     cal.hForm.reset();
-    cal.sDay = cell.querySelector(".cellDate").innerHTML;
+    cal.sDay = day;
     cal.hfDate.value = `${cal.sDay} ${cal.months[cal.sMth]} ${cal.sYear}`;
-    if (cal.data[cal.sDay] !== undefined) {
-      cal.hfTxt.value = cal.data[cal.sDay];
-      cal.hfDel.classList.remove("hide");
-    } else { cal.hfDel.classList.add("hide"); }
-    cal.hFormWrap.show();
+    const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+    dayDocRef.get().then((dayDoc) => {
+      if (dayDoc.exists) {
+        cal.hfTxt.value = dayDoc.data().event;
+        cal.hfDel.classList.remove("hide");
+      } else {
+        cal.hfDel.classList.add("hide");
+      }
+      cal.hFormWrap.show();
+    });
   },
 
-  // zapisanie zdarzenia
-  save : () => {
-    cal.data[cal.sDay] = cal.hfTxt.value;
-    localStorage.setItem(`cal-${cal.sMth}-${cal.sYear}`, JSON.stringify(cal.data));
-    cal.draw();
-    cal.hFormWrap.close();
+  save: function () {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+      // User is signed in
+      const userEmail = user.email;
+
+      const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+      dayDocRef.set({
+        event: cal.hfTxt.value,
+        user: userEmail,
+      })
+        .then(() => {
+          cal.draw();
+          cal.hFormWrap.close();
+        })
+        .catch(error => {
+          console.error("Error writing document: ", error);
+        });
+    } else {
+      // No user is signed in
+      console.error('User not signed in');
+    }
+
     return false;
   },
 
-  // usuniecie zdarzenia
-  del : () => { if (confirm("Usunąć wydarzenie?")) {
-    delete cal.data[cal.sDay];
-    localStorage.setItem(`cal-${cal.sMth}-${cal.sYear}`, JSON.stringify(cal.data));
-    cal.draw();
-    cal.hFormWrap.close();
-  }}
+  del: function () {
+    const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+    if (confirm("Usunąć wydarzenie?")) {
+      dayDocRef.delete()
+        .then(() => {
+          cal.draw();
+          cal.hFormWrap.close();
+        })
+        .catch(error => {
+          console.error("Error deleting document: ", error);
+        });
+    }
+  }
 };
-window.onload = cal.init;
+
+window.onload = function () {
+  var firebaseConfig = {
+  apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
+  authDomain: "student-25aa2.firebaseapp.com",
+  projectId: "student-25aa2",
+  storageBucket: "student-25aa2.appspot.com",
+  messagingSenderId: "487092803105",
+  appId: "1:487092803105:web:55d7a9c30709a04701f560",
+  measurementId: "G-7P8N9VR2N6"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  cal.db = firebase.firestore();
+
+  cal.init();
+};

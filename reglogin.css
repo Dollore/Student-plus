@@ -105,7 +105,7 @@
 	font-size: 1em;
 	color: #ffffff;
 	font-weight: 500;
-	padding: 0 35px; 0 5px;
+	padding: 0 35px 0 5px;
 }
 .input-box .icon
 {
@@ -171,7 +171,37 @@
 	text-decoration: underline;
 
 }
-
+.login-status {
+	position: absolute;
+	text-align: center;
+	justify-content: center;
+	color: #fff;
+	visibility: hidden;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	height: 460px;
+	width: 230px;
+	background: rgba(58, 58, 58, 0.44);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(10.9px);
+	-webkit-backdrop-filter: blur(10.9px);
+}
+#logoutLink {
+	color: #fff;
+	text-decoration: underline;
+	cursor: pointer;
+	margin-top: 10px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 10px;
+}
+  
+  #userEmail {
+	font-weight: bold;
+  }
 body  .wrapper
 {
 	display: flex;

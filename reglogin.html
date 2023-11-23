@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 	  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
     <title>Zaloguj+</title>
   </head>
   <body>
@@ -77,10 +79,19 @@
 
       <!-- SIDEBAR KONIEC -->
 
-      <section class="home-section">
-        <div class="text"></div>
+
+       
 
 <!-- Logowanie/Rejestracja -->
+<section class="home-section">
+  <div class="text"></div>
+  <div class="text">
+<div class="login-status" id="loginStatus">
+  <!-- Content to display when logged in -->
+  <p id="userStatus">Logged in as:</p>
+  <p id="userEmail"></p>
+  <a href="#" id="logoutLink" onclick="logoutUser()">Wyloguj</a>
+</div>
 
     <div class="wrapper">
     	<span class="icon-close">
@@ -166,7 +177,7 @@
     </button></div>
 </section>
 
-</section>
+
 
 <script src="sidebar.js"></script>
 <script src="lightdark.js"></script>
