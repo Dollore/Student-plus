@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../css/myprofile.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/text.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+  <title>Student+</title>
+</head>
+
+<body>
+  <div id="sidebarId" class="sidebar"></div>
+  <!-- Główne okno -->
+  <h1>Mój profil</h1>
+  
+<form id="profileForm">
+   
+   <div id="myProfileInfo">
+    <label for="name">Imię:</label>
+    <input type="text" id="name" value="Jan" readonly>
+    <button type="button" onclick="enableEdit('name')">Zmień</button>
+
+    <label for="surname">Nazwisko:</label>
+    <input type="text" id="surname" value="Kowalski" readonly>
+    <button type="button" onclick="enableEdit('surname')">Zmień</button>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" value="jankowalski@wp.pl" readonly>
+    <button type="button" onclick="enableEdit('email')">Zmień</button>
+
+    <label for="password">Hasło:</label>
+    <input type="password" id="password" value="********" readonly>
+    <button type="button" onclick="enableEdit('password')">Zmień</button>
+   </div> 
+   
+   	<div id="saveButton">
+     <button type="submit"style="background-color: #008CBA;">Zapisz zmiany</button>
+    </div>
+  </form>
+  
+
+  <script src="../js/loadSidebar.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <!--<script src="../js/lightdark.js"></script>-->
+  <script>
+    function enableEdit(fieldId) {
+      const field = document.getElementById(fieldId);
+      field.readOnly = !field.readOnly;
+      field.focus();
+    }
+
+
+    document.getElementById('profileForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      // zmiany w BD
+      alert("Zmiany zostały zapisane.");
+    });
+	  
+  </script>
+</body>
+
+</html>
