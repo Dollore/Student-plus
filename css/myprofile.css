@@ -1,0 +1,73 @@
+ 
+body 
+{
+    font-family: "Poppins", sans-serif;
+    margin: 20px;
+	background-image: url(../html/myProfileBackground.jpg);
+	background-repeat: no-repeat;
+}
+/*form 
+{
+    max-width: 400px;
+    margin: auto;
+}*/
+
+label 
+{
+    display: block;
+    margin-top: 10px;
+}
+input 
+{
+    width: 70%;   
+	padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+button 
+{
+    background-color: #4CAF50;
+    color: white;
+	padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover 
+{
+    background-color: #45a049;
+}
+#myProfilePhoto
+{
+	float: left;
+	margin-left: 15%;
+	margin-top: 20%;	
+}
+#myProfileInfo
+{
+	float: left;
+	max-width: 400px;
+    margin-top: 13%;
+	margin-left: 15%;
+}
+#saveButton
+{
+	clear: both;
+	align-items: center;
+	justify-content: center;
+	padding-top: 50px;
+	margin-left: 20%;
+}
+h1
+{
+	text-align: center;	
+	font-size: 40px;
+	color: white;
+}
+#preview {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  
