@@ -25,28 +25,24 @@
     <div id="myProfileInfo">
       <label for="name">Imię:</label>
       <input type="text" id="nameInput" value="Imię" contenteditable="">
-      <button type="button" onclick="enableEdit('name')">Zmień</button>
   
       <label for="surname">Nazwisko:</label>
       <input type="text" id="surnameInput" value="Nazwisko" contenteditable="">
-      <button type="button" onclick="enableEdit('surname')">Zmień</button>
   
       <label for="studies">Kierunek studiów: </label>
       <input type="text" id="studiesInput" value="Kierunek" contenteditable="">
-      <button type="button" onclick="enableEdit('studies')">Zmień</button>
   
       <label for="semester">Semestr: </label>
       <input type="text" id="semesterInput" value="Semestr" contenteditable="">
-      <button type="button" onclick="enableEdit('semester')">Zmień</button>
   
       <label for="group">Grupa studencka: </label>
       <input type="text" id="groupInput" value="Grupa" contenteditable="">
-      <button type="button" onclick="enableEdit('group')">Zmień</button>
-    </div>
+    
   
     <div id="saveButton">
-      <button id="saveChangesButton" style="background-color: #008CBA;">Zapisz zmiany</button>
+      <button id="saveChangesButton" style="color:#000; font-weight:bold;">Zapisz zmiany</button>
     </div>
+  </div>
   </form>
   
 
@@ -59,18 +55,15 @@ var profiles = {
   user: null,
 
   init: function () {
-    // Pobierz dane użytkownika i ustaw je w polach formularza
 
-    // Dodaj event listener do przycisku "Zapisz zmiany"
     document.getElementById("saveChangesButton").addEventListener("click", function(event) {
-    event.preventDefault(); // Zatrzymaj domyślne działanie przycisku
+    event.preventDefault(); 
     profiles.saveUserProfile();
   });
   },
 
   getUserProfile: function () {
     if (profiles.user) {
-      // Pobierz dane użytkownika z bazy danych i ustaw w polach formularza
       var userProfileRef = profiles.db.collection("USERPROFILES").doc(profiles.user.email);
 
       userProfileRef.get().then(function (doc) {
@@ -90,7 +83,6 @@ var profiles = {
 
   saveUserProfile: function () {
   if (profiles.user) {
-    // Pobierz wartości z pól formularza
     var name = document.getElementById("nameInput").value;
     var surname = document.getElementById("surnameInput").value;
     var studies = document.getElementById("studiesInput").value;
@@ -106,8 +98,6 @@ var profiles = {
       group: group
     }).then(function () {
       console.log("Dane użytkownika zapisane pomyślnie.");
-
-      // Po zapisie danych, natychmiast pobierz dane z bazy i zaktualizuj pola formularza
       profiles.getUserProfile();
     }).catch(function (error) {
       console.error("Błąd zapisu danych użytkownika: ", error);
@@ -118,7 +108,6 @@ var profiles = {
 },
 
   setProfileFields: function (userData) {
-    // Ustaw wartości pól formularza na podstawie danych użytkownika
     document.getElementById("nameInput").value = userData.name || "";
     document.getElementById("surnameInput").value = userData.surname || "";
     document.getElementById("studiesInput").value = userData.studies || "";
@@ -141,16 +130,13 @@ window.onload = function () {
   firebase.initializeApp(firebaseConfig);
   profiles.db = firebase.firestore();
 
-   // Sprawdź, czy użytkownik jest zalogowany
    firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      // Użytkownik zalogowany
       console.log('Zalogowano jako: ', user.email);
       profiles.user = user;
       profiles.init(); // Inicjalizacja danych
       profiles.getUserProfile();
     } else {
-      // Brak użytkownika
       console.log('BRAK LOGINU');
       alert('Proszę się najpierw zalogować.');
     }
