@@ -9,6 +9,9 @@
   <link rel="stylesheet" type="text/css" href="../css/text.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
 
   <title>Student+</title>
 </head>
@@ -18,49 +21,141 @@
   <!-- Główne okno -->
   <h1>Mój profil</h1>
   
-<form id="profileForm">
-   
-   <div id="myProfileInfo">
-    <label for="name">Imię:</label>
-    <input type="text" id="name" value="Jan" readonly>
-    <button type="button" onclick="enableEdit('name')">Zmień</button>
-
-    <label for="surname">Nazwisko:</label>
-    <input type="text" id="surname" value="Kowalski" readonly>
-    <button type="button" onclick="enableEdit('surname')">Zmień</button>
-
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" value="jankowalski@wp.pl" readonly>
-    <button type="button" onclick="enableEdit('email')">Zmień</button>
-
-    <label for="password">Hasło:</label>
-    <input type="password" id="password" value="********" readonly>
-    <button type="button" onclick="enableEdit('password')">Zmień</button>
-   </div> 
-   
-   	<div id="saveButton">
-     <button type="submit"style="background-color: #008CBA;">Zapisz zmiany</button>
+  <form id="profileForm">
+    <div id="myProfileInfo">
+      <label for="name">Imię:</label>
+      <input type="text" id="nameInput" value="Imię" contenteditable="">
+      <button type="button" onclick="enableEdit('name')">Zmień</button>
+  
+      <label for="surname">Nazwisko:</label>
+      <input type="text" id="surnameInput" value="Nazwisko" contenteditable="">
+      <button type="button" onclick="enableEdit('surname')">Zmień</button>
+  
+      <label for="studies">Kierunek studiów: </label>
+      <input type="text" id="studiesInput" value="Kierunek" contenteditable="">
+      <button type="button" onclick="enableEdit('studies')">Zmień</button>
+  
+      <label for="semester">Semestr: </label>
+      <input type="text" id="semesterInput" value="Semestr" contenteditable="">
+      <button type="button" onclick="enableEdit('semester')">Zmień</button>
+  
+      <label for="group">Grupa studencka: </label>
+      <input type="text" id="groupInput" value="Grupa" contenteditable="">
+      <button type="button" onclick="enableEdit('group')">Zmień</button>
+    </div>
+  
+    <div id="saveButton">
+      <button id="saveChangesButton" style="background-color: #008CBA;">Zapisz zmiany</button>
     </div>
   </form>
   
 
   <script src="../js/loadSidebar.js"></script>
   <script src="../js/sidebar.js"></script>
-  <!--<script src="../js/lightdark.js"></script>-->
+
   <script>
-    function enableEdit(fieldId) {
-      const field = document.getElementById(fieldId);
-      field.readOnly = !field.readOnly;
-      field.focus();
+var profiles = {
+  db: null,
+  user: null,
+
+  init: function () {
+    // Pobierz dane użytkownika i ustaw je w polach formularza
+
+    // Dodaj event listener do przycisku "Zapisz zmiany"
+    document.getElementById("saveChangesButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Zatrzymaj domyślne działanie przycisku
+    profiles.saveUserProfile();
+  });
+  },
+
+  getUserProfile: function () {
+    if (profiles.user) {
+      // Pobierz dane użytkownika z bazy danych i ustaw w polach formularza
+      var userProfileRef = profiles.db.collection("USERPROFILES").doc(profiles.user.email);
+
+      userProfileRef.get().then(function (doc) {
+        if (doc.exists) {
+          var userData = doc.data();
+          profiles.setProfileFields(userData);
+        } else {
+          console.log("Dane użytkownika nie znalezione w bazie.");
+        }
+      }).catch(function (error) {
+        console.log("Błąd pobierania danych użytkownika: ", error);
+      });
+    } else {
+      console.log("Brak zalogowanego użytkownika.");
     }
+  },
 
+  saveUserProfile: function () {
+  if (profiles.user) {
+    // Pobierz wartości z pól formularza
+    var name = document.getElementById("nameInput").value;
+    var surname = document.getElementById("surnameInput").value;
+    var studies = document.getElementById("studiesInput").value;
+    var semester = document.getElementById("semesterInput").value;
+    var group = document.getElementById("groupInput").value;
 
-    document.getElementById('profileForm').addEventListener('submit', function (event) {
-      event.preventDefault();
-      // zmiany w BD
-      alert("Zmiany zostały zapisane.");
+    // Zapisz dane użytkownika do bazy danych
+    profiles.db.collection("USERPROFILES").doc(profiles.user.email).set({
+      name: name,
+      surname: surname,
+      studies: studies,
+      semester: semester,
+      group: group
+    }).then(function () {
+      console.log("Dane użytkownika zapisane pomyślnie.");
+
+      // Po zapisie danych, natychmiast pobierz dane z bazy i zaktualizuj pola formularza
+      profiles.getUserProfile();
+    }).catch(function (error) {
+      console.error("Błąd zapisu danych użytkownika: ", error);
     });
-	  
+  } else {
+    console.log("Brak zalogowanego użytkownika.");
+  }
+},
+
+  setProfileFields: function (userData) {
+    // Ustaw wartości pól formularza na podstawie danych użytkownika
+    document.getElementById("nameInput").value = userData.name || "";
+    document.getElementById("surnameInput").value = userData.surname || "";
+    document.getElementById("studiesInput").value = userData.studies || "";
+    document.getElementById("semesterInput").value = userData.semester || "";
+    document.getElementById("groupInput").value = userData.group || "";
+  }
+};
+
+window.onload = function () {
+  var firebaseConfig = {
+    apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
+    authDomain: "student-25aa2.firebaseapp.com",
+    projectId: "student-25aa2",
+    storageBucket: "student-25aa2.appspot.com",
+    messagingSenderId: "487092803105",
+    appId: "1:487092803105:web:55d7a9c30709a04701f560",
+    measurementId: "G-7P8N9VR2N6"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  profiles.db = firebase.firestore();
+
+   // Sprawdź, czy użytkownik jest zalogowany
+   firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // Użytkownik zalogowany
+      console.log('Zalogowano jako: ', user.email);
+      profiles.user = user;
+      profiles.init(); // Inicjalizacja danych
+      profiles.getUserProfile();
+    } else {
+      // Brak użytkownika
+      console.log('BRAK LOGINU');
+      alert('Proszę się najpierw zalogować.');
+    }
+  });
+};
   </script>
 </body>
 
