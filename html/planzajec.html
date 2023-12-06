@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Kalendarz+</title>
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" href="../css/planzajec.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
+  <body>
+    <div id="sidebarId" class="sidebar"></div>
+    <section class="home-section">
+        <div id="text">
+
+
+        <div id="contentContainer" class="selector" style="visibility: hidden;">
+            <div style="background-color:rgba(0, 100, 0, 0.322); width: 200px; text-align: center; margin-left:45%; padding: 10px; border-radius: 12px;">
+            <label for="groupSelect">Wybierz grupę: </label>
+            <select id="groupSelect" disabled onchange="loadSchedule()">
+              <option value="GRUPA_A">Grupa 1</option>
+              <option value="GRUPA_B">Grupa 2</option>
+            </select>
+        </div>
+        </div>
+
+        <table id="scheduleTable" class="scheduleTable">
+            <thead>
+              <tr>
+                <th class="hourColumn" style="color:#fff;">Godzina</th>
+                <th class="dayColumn" style="color:#fff;">Sobota</th>
+                <th class="dayColumn" style="color:#fff;">Niedziela</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleBody" style="font-size:14px; font:Roboto; color:chartreuse;">
+              <!-- Tutaj zostanie wstawiony plan zajęć -->
+            </tbody>
+          </table>
+    
+        </div>
+    </div>
+    </section>
+
+
+    <script src="../js/planzajec.js"></script>
+    <script src="../js/loadSidebar.js"></script>
+    <script src="../js/sidebar.js"></script>
+  </body>
+  
+  </html>
