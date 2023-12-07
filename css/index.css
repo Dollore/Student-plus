@@ -229,12 +229,13 @@
 
 body {
   transition: background-color 1s;
+	background: #002e1cb1;
 }
 .button-container {
   text-align: center;
 }
 .color-button {
-  position: absolute;
+  position: fixed;
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
@@ -245,10 +246,11 @@ body {
   box-shadow: 4px 4px 25px 2px;
 }
 .light-mode {
-  background-color: #ffffff00;
+  background-color: #D2D3D3;
 }
 .dark-mode {
-  background-color: #00000087;
+  /*background-color: #00000087;*/
+	background-color: #002e1cb1; 
 }
 .icon::before {
   content: ""; 
@@ -260,4 +262,107 @@ body {
   .sidebar li .tooltip {
     display: none;
   }
+}
+.about-1
+{
+	margin-left: 100px;
+	margin-top: 100px;
+	padding: 5px;
+	text-align: center;
+}
+.about-1 h1
+{
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-size: 50px;
+	animation: fadeInAnimation ease 5s;
+    animation-iteration-count: 999;
+    animation-fill-mode: forwards;
+}
+.about-1 p
+{
+	text-align: center;
+	padding: 3px;
+	color: #fff;
+	margin-left: 25%;
+	margin-right: 25%;
+}
+.about-item
+{
+	margin-bottom: 20px;
+	margin-top: 100px;
+	justify-content: center;	
+	background-color: white;
+	padding: 30px;
+	box-shadow: 0 0 9px rgba(0,0,0 .6);
+	margin-left: 8%;
+	float: left;
+	width: 25%;
+	min-height: 300px;
+	border-radius: 5%;
+}
+.about-item i
+{
+	font-size: 30px;
+	margin: 0;
+	margin-left: 45%;
+}
+.about-item h3
+{
+	font-size: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.about-item hr
+{
+	width: 46px;
+	height: 3px;
+	background-color: #13A68E;
+	margin: 0 auto;
+	border: none;
+}
+.about-item p
+{
+	margin-top: 20px;
+	text-align: center;
+	justify-content: center;
+}
+.about-item:hover
+{
+	background-color: #13A68E;
+	
+}
+.about-item:hover i,
+.about-item:hover h3,
+.about-item:hover p
+{
+	color: #fff;
+}
+.about-item:hover h4
+
+{
+	background-color: #fff;
+}
+.about-item:hover i
+{
+	transform: translateY(-20px);
+}
+.about-item:hover i,
+.about-item:hover h3,
+.about-item:hover hr
+{
+	transition: all 400ms east-in-out;
+}
+#about-2
+{
+	margin: 20px;
+}
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
 }
