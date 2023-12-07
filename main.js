@@ -20,7 +20,7 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('html/index.html')
+  mainWindow.loadFile('html/reglogin.html')
 
   // Open the DevTools.
  // mainWindow.webContents.openDevTools()
