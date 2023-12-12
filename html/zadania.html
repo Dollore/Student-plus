@@ -13,42 +13,156 @@
 
 <body>
 
-  <div id="sidebarId" class="sidebar"></div>
+<div id="sidebarId" class="sidebar"></div>
 
-  <section class="home-section">
+<section class="home-section">
 
-    <div class="header">
-      <h1>Listy Zadań</h1>
-      <form id="new-list-form">
-        <input type="text" id="new-list-input" placeholder="Nazwa listy">
-        <input type="submit" value="Dodaj listę!" id="new-list-submit">
-      </form>
+  <header class="header">
+    <h1>Moja lista zadań</h1>
+    <button id="add-new-task-btn" class="btn-dark-blue">Add new</button>
+  </header>
+  
+  <section class="form">
+  
+    <form action="" id="form">
+  
+        <label for="task-input">Title</label>
+        <input type="text" name="form-task" id="task-input" class="task-input" placeholder="Title">
+  
+        <label for="date-input">Date</label>
+        <input type="date" name="form-date" id="date-input" class="date-input" placeholder="Date" required>
+  
+        <p>Priority</p>
+        <div class="priority-box">
+            <label for="p1-input">
+                <input type="radio" name="form-priority" value="1" id="p1-input">
+                1 - Highest
+            </label>
+            <label for="p2-input">
+                <input type="radio" name="form-priority" value="2" id="p2-input">
+                2 - High
+            </label>
+            <label for="p3-input">
+                <input type="radio" name="form-priority" value="3" id="p3-input">
+                3 - Medium
+            </label>
+            <label for="p4-input">
+                <input type="radio" name="form-priority" value="4" id="p4-input">
+                4 - Low
+            </label>
+            <label for="p5-input">
+                <input type="radio" name="form-priority" value="5" id="p5-input">
+                5 - Lowest
+            </label>
+        </div>
+  
+        <label for="textarea-input">Opis zadania</label>
+        <textarea name="form-description" cols="100" rows="3" id="textarea-input" class="textarea-input" placeholder="Task description"></textarea>
+  
+        <div class="form-bottom">
+            <button id="form-submit-btn" class="form-submit-btn" type="submit">Save</button>
+            <div id="error-message" class="error-message"></div>
+        </div>
+  
+    </form>
+  </section>
+  
+  <section class="filters">
+  
+    <div class="filters-row-1">
+        <h2 class="filters-title">Filtruj zadania</h2>
     </div>
-
-    <section class="main">
-      <!-- <div class="task-list">
-            <form id="new-task-form">
-              <h2>Nazwa Listy</h2>
-              <input type="submit" id="new-task-submit" value="Dodaj Zadanie!">
-            </form>
-            <div id="tasks">
-              <div class="task">
-                <div class="content">
-                  <input type="text" class="text" value="moje zadanie" readonly>
-                </div>
-                <div class="actions">
-                  <button class="edit">Edytuj</button>
-                  <button class="delete">Usuń</button>
-                </div>
-              </div>
+  
+    <div class="filters-row-2">
+        <div class="filters-row-2-btns">
+            <button type="button" id="filter-done-btn" class="filter-done-btn">Pokaż zakończone</button>
+            <button type="button" id="filter-undone-btn" class="filter-undone-btn">Pokaż niezakonczone</button>
+        </div>
+  
+        <form action="" id="filter_priority" class="filter_priority">
+            <label class="filters-priority-title">Priority</label>
+  
+            <div class="custom-select">
+                <select name="filter-priority" id="filter-priority">
+                    <option value="all">Wybierz</option>
+                    <option value="1">1 - Highest</option>
+                    <option value="2">2 - High</option>
+                    <option value="3">3 - Medium</option>
+                    <option value="4">4 - Low</option>
+                    <option value="5">5 - Lowest</option>
+                </select>
             </div>
-
-          </div> -->
-
-    </section>
-
+        </form>
+    </div>
+  
+    <div class="filters-row-3">
+        <button type="button" id="filters-reset-btn" class="filters-reset-btn">Pokaż wszystkie</button>
+    </div>
+  
+  </section>
+  
+  <section class="list">
+    <h2 id="task-list-title" class="task-list-title">Zadania</h2>
+  
+    <ul class="hidden-always">
+        <li id="li-to-clone" class="hidden-always">
+  
+            <div class="task-head-panel">
+  
+                <div class="li-col-1">
+                    <button class="task-show">
+                        <span class="task-show-dots">...</span>
+                    </button>
+                </div>
+  
+                <div class="li-col-2">
+                    <h3 class="task-name"></h3>
+                    <span class="task-date"></span>
+                </div>
+  
+                <div class="li-col-3">
+                    <span class="task-priority"></span>
+                </div>
+  
+                <div class="li-col-4">
+                    <button class="task-complete">
+                        Zakończ
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                </div>
+  
+                <div class="li-col-5">
+                    <button class="task-delete">
+                        Usuń
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
+                </div>
+  
+            </div>
+  
+            <div class="task-descr-panel">
+                <p class="task-description"></p>
+            </div>
+  
+            <span class="task-id hidden-always"></span>
+        </li>
+    </ul>
+  
+    <ul id="task-list" class="task-list">
+  
+    </ul>
+  
+  
+    <div class="li-remove-btns">
+        <button id="remove-finished-btn" class="remove-finished-btn">Usuń<br>zakończone zadania</button>
+        <button id="remove-all-btn" class="remove-all-btn">Usuń<br>wszystkie zadania</button>
     </div>
   </section>
+  </div>
+
+
+</section>
 
 
 
