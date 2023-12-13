@@ -21,7 +21,7 @@
   }
   body {
     font-family: "open sans";
-    color: #444;
+    color: #000000;
     font-size: 1em;
   }
   .container {
@@ -48,6 +48,7 @@
     font-size: 0.9em;
     transition: all 0.2s ease-in-out;
     text-align: center;
+    background-color: #ffffff51;
   }
   .cards li:after,
   .cards li:before {
@@ -93,12 +94,12 @@
     color: #444;
   }
   .cards li .details a {
-    color: #002e1c;
+    color: #00bf76;
     transition: color 0.5s ease-in-out;
   }
   .cards li .details a:hover,
   .cards li .details a:focus {
-    color: #00a063;
+    color: #00482d;
     transition: color 0.5s ease-in-out;
   }
   .cards li .details .name {

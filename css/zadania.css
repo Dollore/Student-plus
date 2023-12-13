@@ -37,7 +37,7 @@ body{
 .header{
     width:80%;
     height:100px;
-    background:#002e1cb1;
+    background:#007146b1;
     padding:10px;
     border-radius:8px;
     display:-webkit-box;
@@ -87,13 +87,13 @@ body{
     cursor:pointer
 }
 .header button:hover{
-    -webkit-box-shadow:0 5px 6px -3px rgba(0,107,255,0.3);
-    box-shadow:0 5px 6px -3px rgba(0,107,255,0.3)
+    -webkit-box-shadow:0 5px 6px -3px rgba(0, 0, 0, 0.574);
+    box-shadow:0px 0px 15px 3px rgba(0, 0, 0, 0.3)
 }
 .btn-dark-blue{
-    background-color:#00180f;
+    background-color:#00422a;
     color:white;
-    border:none
+    border:none;
 }
 .btn-light-blue{
     border:1px solid #00180f;
@@ -124,6 +124,7 @@ body{
 .form{
     width:95%;
     border-radius: 8px;
+    background-color: #0071468f;
     position:relative;
     font-weight:300;
     overflow:hidden;
@@ -340,6 +341,7 @@ body{
     border-radius:8px;
     margin-top:30px;
     margin: 30px auto 0 auto ;
+    background-color: #007146b1;
 }
 .filters .filters-title{
     color:white;
@@ -532,6 +534,7 @@ body{
     border:1px solid #E1E5EC;
     border-radius:8px;
     margin: 30px auto 0 auto;
+    background-color: #007146b1;
 }
 .list button{
     width:150px;
@@ -652,7 +655,8 @@ body{
     justify-content:space-between;
     -webkit-box-align:center;
     -ms-flex-align:center;
-    align-items:center
+    align-items:center;
+    color: #fff;
 }
 .task-descr-panel{
     max-height:0;
