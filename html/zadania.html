@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="../css/zadania.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
   <title>Zadania+</title>
 </head>
 
@@ -19,7 +22,7 @@
 
   <header class="header">
     <h1>Moja lista zadań</h1>
-    <button id="add-new-task-btn" class="btn-dark-blue">Add new</button>
+    <button id="add-new-task-btn" class="btn-dark-blue">Dodaj nowe zadanie</button>
   </header>
   
   <section class="form">
@@ -27,37 +30,37 @@
     <form action="" id="form">
   
         <label for="task-input">Title</label>
-        <input type="text" name="form-task" id="task-input" class="task-input" placeholder="Title">
+        <input type="text" name="form-task" id="form-task" class="task-input" placeholder="Title">
   
         <label for="date-input">Date</label>
-        <input type="date" name="form-date" id="date-input" class="date-input" placeholder="Date" required>
+        <input type="date" name="form-date" id="form-date" class="date-input" placeholder="Date" required>
   
-        <p>Priority</p>
+        <p>Priorytet</p>
         <div class="priority-box">
             <label for="p1-input">
-                <input type="radio" name="form-priority" value="1" id="p1-input">
-                1 - Highest
+                <input type="radio" name="form-priority" value="1" id="form-priority">
+                1 - Najwyższy
             </label>
             <label for="p2-input">
-                <input type="radio" name="form-priority" value="2" id="p2-input">
-                2 - High
+                <input type="radio" name="form-priority" value="2" id="form-priority">
+                2 - Wysoki
             </label>
             <label for="p3-input">
-                <input type="radio" name="form-priority" value="3" id="p3-input">
-                3 - Medium
+                <input type="radio" name="form-priority" value="3" id="form-priority">
+                3 - Średni
             </label>
             <label for="p4-input">
-                <input type="radio" name="form-priority" value="4" id="p4-input">
-                4 - Low
+                <input type="radio" name="form-priority" value="4" id="form-priority">
+                4 - Niski
             </label>
             <label for="p5-input">
-                <input type="radio" name="form-priority" value="5" id="p5-input">
-                5 - Lowest
+                <input type="radio" name="form-priority" value="5" id="form-priority">
+                5 - Najniższy
             </label>
         </div>
   
         <label for="textarea-input">Opis zadania</label>
-        <textarea name="form-description" cols="100" rows="3" id="textarea-input" class="textarea-input" placeholder="Task description"></textarea>
+        <textarea name="form-description" cols="100" rows="3" id="form-description" class="textarea-input" placeholder="Task description"></textarea>
   
         <div class="form-bottom">
             <button id="form-submit-btn" class="form-submit-btn" type="submit">Save</button>
@@ -80,16 +83,16 @@
         </div>
   
         <form action="" id="filter_priority" class="filter_priority">
-            <label class="filters-priority-title">Priority</label>
+            <label class="filters-priority-title">Priorytet</label>
   
             <div class="custom-select">
                 <select name="filter-priority" id="filter-priority">
-                    <option value="all">Wybierz</option>
-                    <option value="1">1 - Highest</option>
-                    <option value="2">2 - High</option>
-                    <option value="3">3 - Medium</option>
-                    <option value="4">4 - Low</option>
-                    <option value="5">5 - Lowest</option>
+                    <option value="all">Wybierz: </option>
+                    <option value="1">1 - Najwyższy</option>
+                    <option value="2">2 - Wysoki</option>
+                    <option value="3">3 - Średni</option>
+                    <option value="4">4 - Niski</option>
+                    <option value="5">5 - Najniższy</option>
                 </select>
             </div>
         </form>
@@ -102,7 +105,7 @@
   </section>
   
   <section class="list">
-    <h2 id="task-list-title" class="task-list-title">Zadania</h2>
+    <h2 id="task-list-title" class="task-list-title">Lista zadań</h2>
   
     <ul class="hidden-always">
         <li id="li-to-clone" class="hidden-always">
@@ -179,13 +182,39 @@
                 </div>
           </button></div> -->
   </section>
+ 
+<script>    
+window.onload = function () {
+  var firebaseConfig = {
+    apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
+    authDomain: "student-25aa2.firebaseapp.com",
+    projectId: "student-25aa2",
+    storageBucket: "student-25aa2.appspot.com",
+    messagingSenderId: "487092803105",
+    appId: "1:487092803105:web:55d7a9c30709a04701f560",
+    measurementId: "G-7P8N9VR2N6"
+  };
 
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
 
-
+    // Sprawdzenie statusu zalogowania użytkownika
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // Jeżeli użytkownik zalogowany, wykonaj odpowiednie operacje
+            readFromDatabase(user.email);
+            console.log('Zalogowano jako: ', user.email);
+        } else {
+            // Jeżeli użytkownik niezalogowany, wyświetl komunikat
+            console.log('BRAK LOGINU');
+            alert('Proszę się najpierw zalogować.');
+        }
+    });
+};
+</script>
+ <script src="../js/zadania.js"></script>
   <script src="../js/loadSidebar.js"></script>
   <script src="../js/sidebar.js"></script>
-  <script src="../js/zadania.js"></script>
-  <script src="../js/lightdark.js"></script>
 </body>
 
 </html>
