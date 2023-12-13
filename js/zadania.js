@@ -1,472 +1,430 @@
-document.addEventListener('DOMContentLoaded', function() {
+const form = document.querySelector('#form');
+const formSection = document.querySelector('.form');
+const formHeader = document.querySelector('.header');
+const addNewTaskBtn = document.querySelector('#add-new-task-btn');
+const filterDoneBtn = document.querySelector('#filter-done-btn');
+const filterUndoneBtn = document.querySelector('#filter-undone-btn');
+const removeAllBtn = document.querySelector('#remove-all-btn');
+const removeFinishedBtn = document.querySelector('#remove-finished-btn');
+const filtersResetBtn = document.querySelector('#filters-reset-btn');
+const liToClone = document.querySelector('#li-to-clone');
+const taskList = document.querySelector('#task-list');
+const priorities = document.querySelector('#filter-priority');
+const filterPriorityForm = document.querySelector('#filter_priority');
+form.addEventListener('submit', formValidateAndSubmit);
+let db;  // Dodaj zmienną db poza funkcję onload, aby była dostępna globalnie
+function generateTaskId() {
+    return Math.random().toString(36).substr(2, 9);
+  }
+function parseJsonFromLS() {
+  let taskArrayJSON = localStorage.getItem("todolist");
+  let htmlArray = [];
+  if (taskArrayJSON) {
+    htmlArray = JSON.parse(taskArrayJSON);
+  }
+  return htmlArray;
+}
+function findAllBtns() {
+    findShowDescrBtns();
+    findCompleteTaskBtns();
+    findDeleteBtns();
+}
 
-    // ===================================================
-    // 1) Stałe
-    // ===================================================
+function addArrayToLS(arr) {
+    let arrayJSON = JSON.stringify(arr);
+    localStorage.setItem("todolist", arrayJSON);
+  }
+  
+  function readFromDatabase(userEmail) {
+    var docRef = db.collection("todolist").doc(userEmail);
+  
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        var taskArray = doc.data().tasks || [];
+        addArrayToHtml(taskArray);
+        findAllBtns(); // Teraz findAllBtns jest dostępne
+      } else {
+        console.log("Brak dokumentu w bazie danych dla użytkownika: " + userEmail);
+      }
+    }).catch(function (error) {
+      console.log("Błąd podczas odczytywania z bazy danych:", error);
+    });
+  }
 
-    const form = document.querySelector('#form');
-    const formSection = document.querySelector('.form');
-    const formHeader = document.querySelector('.header');
+function writeToDatabase(userEmail, taskArray) {
+  db.collection("todolist").doc(userEmail).set({
+    tasks: taskArray
+  })
+    .then(function () {
+      console.log("Dane zapisane do bazy danych dla użytkownika: " + userEmail);
+    })
+    .catch(function (error) {
+      console.error("Błąd podczas zapisywania do bazy danych: ", error);
+    });
+}
 
-    const addNewTaskBtn = document.querySelector('#add-new-task-btn');
-    const filterDoneBtn = document.querySelector('#filter-done-btn');
-    const filterUndoneBtn = document.querySelector('#filter-undone-btn');
-    const removeAllBtn = document.querySelector('#remove-all-btn');
-    const removeFinishedBtn = document.querySelector('#remove-finished-btn');
-    const filtersResetBtn = document.querySelector('#filters-reset-btn');
+function addArrayToHtml(arr) {
+  taskList.innerHTML = "";
 
-    const liToClone = document.querySelector('#li-to-clone');
-    const taskList = document.querySelector('#task-list');
-    const priorities = document.querySelector('#filter-priority');
-    const filterPriorityForm = document.querySelector('#filter_priority');
+  for (let i = 0; i < arr.length; i++) {
+    addObjectToHtml(arr[i]);
+  }
+}
+function addObjectToHtml(taskObject) {
+  let liCloned = liToClone.cloneNode(true);
 
+  liCloned.classList.remove('hidden-always');
+  liCloned.removeAttribute('id');
 
-    // ===================================================
-    // 2) Definicje funkcji
-    // ===================================================
+  if (taskObject.taskDone) {
+    liCloned.classList.add('done');
+  }
 
-    
-    // ----- odczyt listy z local storage (zamiana z JSONa na zwykłą tablicę) -----
+  liCloned.querySelector('.task-name').innerText = taskObject.taskName;
+  liCloned.querySelector('.task-date').innerText = taskObject.taskDate;
+  liCloned.querySelector('.task-priority').innerText = taskObject.taskPriority;
+  liCloned.querySelector('.task-description').innerText = taskObject.taskAbout;
+  liCloned.querySelector('.task-id').innerText = taskObject.taskId;
 
-    function parseJsonFromLS() {
-        //musi być pobrana wewnątrz funkcji
-        let taskArrayJSON = localStorage.getItem("todolist");
+  taskList.appendChild(liCloned);
+}
 
-        let htmlArray = [];             //TODO: znalezc jakas lepsza nazwe
-        if (taskArrayJSON) {
-            htmlArray = JSON.parse(taskArrayJSON);
-        }
-        return htmlArray;
-    }
-
-    // ----- pobranie listy z LS do htmla i odświeżenie buttonów -----
-    // odpalana na starcie oraz przy dodawaniu/usuwaniu tasków
-
-    function getFromLS() {
-        //musi być pobierana wewnątrz poszczególnych funkcji, inaczej się nie aktualizuje
-        let taskArray = parseJsonFromLS();
-
+function saveToDatabase(taskArray) {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      var userEmail = user.email;
+  
+      db.collection("todolist").doc(userEmail).set({
+        tasks: taskArray
+      })
+      .then(function () {
+        console.log("Dane zapisane do bazy danych dla użytkownika: " + userEmail);
+  
+        // Odśwież widok po zapisie do bazy danych
         addArrayToHtml(taskArray);
         findAllBtns();
+      })
+      .catch(function (error) {
+        console.error("Błąd podczas zapisywania do bazy danych: ", error);
+      });
+    } else {
+      console.log("Użytkownik niezalogowany. Nie można zapisać do bazy danych.");
     }
-
-
-    // ----- odświeżenie eventów na wszystkich buttonach -----
-    function findAllBtns() {
-        findShowDescrBtns();
-        findCompleteTaskBtns();
-        findDeleteBtns();
-    }
-
-    // ----- przekazanie tablicy obiektów do stworzenia listy w html -----
-    function addArrayToHtml(arr) {
-        //wyczyszczenie htmla przed wczytaniem na nowo tasków
-        taskList.innerHTML = "";
-
-        for (let i = 0; i < arr.length; i++) {
-            addObjectToHtml(arr[i]);
-        }
-    }
-
-    // ---- dodawanie nowego taska z obiektu do html
-
-    function addObjectToHtml(taskObject) {
-
-        let liCloned = liToClone.cloneNode(true);
-
-        liCloned.classList.remove('hidden-always');
-        liCloned.removeAttribute('id');
-
-        if (taskObject.taskDone) {
-            liCloned.classList.add('done');
-        }
-
-        liCloned.querySelector('.task-name').innerText = taskObject.taskName;
-        liCloned.querySelector('.task-date').innerText = taskObject.taskDate;
-        liCloned.querySelector('.task-priority').innerText = taskObject.taskPriority;
-        liCloned.querySelector('.task-description').innerText = taskObject.taskAbout;
-        liCloned.querySelector('.task-id').innerText = taskObject.taskId;
-
-        taskList.appendChild(liCloned);
-    }
-
-
-    // ------- walidacja -------
-
-
-    function generateID() {
-        return '_' + Math.random().toString(36).substr(2, 9);
-    }
-
-    function formValidateAndSubmit(event) {
-        event.preventDefault();
-
-        let taskInput = document.querySelector('#task-input');
-        let dateInput = document.querySelector('#date-input');  //+required w html
-        let priorities = document.getElementsByName("form-priority");
-        let textAreaInput = document.querySelector('#textarea-input');
-
-        let error = document.querySelector('#error-message');
-        error.innerText = '';
-        let formValid = true;
-
-        let taskPriority;
-        for (let i = 0; i < 5; i++) {
-            if (priorities[i].checked) {
-                taskPriority = priorities[i].value;
-            }
-        }
-
-        let getTaskId = generateID();
-
-
-        //temat zadania
-
-        if (taskInput.value.length <= 0) {
-            formValid = false;
-            error.innerText += "- enter a task's title \n";
-        }
-        if (taskInput.value.length > 25) {
-            formValid = false;
-            error.innerText += "- a title can't be longer than 25 characters \n";
-        }
-
-
-        //priorytet
-
-        let checkboxCheckedNumber = 0;
-
-        for (let i = 0; i < priorities.length; i++) {
-            if (priorities[i].checked) {
-                checkboxCheckedNumber += 1;
-            }
-        }
-        if (!checkboxCheckedNumber) {
-            error.innerText += '- choose priority \n';
-            formValid = false;
-        }
-
-
-        //text area
-
-        if (textAreaInput.value.length > 100) {
-            formValid = false;
-            error.innerText += "- a task's description can't be longer than 100 characters \n";
-        }
-
-
-        //JESLI WALIDACJA JEST OK:
-
-        if(formValid) {
-            createNewTaskObject(getTaskId, taskInput.value, dateInput.value, textAreaInput.value, taskPriority);
-            closeForm();
-            form.reset();
-        }
-    }
-
-    form.addEventListener('submit', formValidateAndSubmit);
-
-
-    // ----- schowanie formularza po walidacji -----
-    function closeForm() {
-        accordionClose(formSection);
-        accordionHeader(formHeader);
-        changeBtnTxt(addNewTaskBtn);
-        changeBtnClass(addNewTaskBtn);
-    }
-
-
-    //=========================================================
-    // ----- aktualizacja tablicy w local storage -----
-    function addArrayToLS(arr) {
-        let arrayJSON = JSON.stringify(arr);
-        localStorage.setItem("todolist", arrayJSON);
-
-        //odpala odświeżenie listy i eventów na buttonach w html
-        getFromLS();
-    }
-
-
-    //=========================================================
-    // ------- tworzenie nowego obiektu (taska) -----------
-    function createNewTaskObject(addId, addTask, addDate, addDescription, addPriority) {
-
-        let newTaskObject = {
-            taskId: addId,
-            taskName: addTask,
-            taskDate: addDate,
-            taskPriority: addPriority,
-            taskAbout: addDescription,
-            taskDone: false
-        };
-
-        let taskArray = parseJsonFromLS();
-
-        // nowa tablica do przekazania do local storage
-        let newArrToLS = [];
-        newArrToLS = newArrToLS.concat(taskArray);
-        newArrToLS.push(newTaskObject);
-
-        addArrayToLS(newArrToLS);
-    }
-
-
-    //=========================================================
-    // ------- BUTTONY - usuwanie pojedynczych tasków --------
-
-    function deleteTask() {
-        let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
-
-        // usuwanie obiektu z tablicy głównej w LS
-        deleteTaskFromArray(taskId);
-    }
-
-    function findDeleteBtns() {
-
-        let deleteTaskBtns = document.querySelectorAll('.task-delete');
-        for (let i = 0; i < deleteTaskBtns.length; i++) {
-            deleteTaskBtns[i].addEventListener('click', deleteTask)
-        }
-    }
-
-
-    // ----- usuwanie obiektu (taska) z tablicy ----
-    function deleteTaskFromArray(id) {
-
-        let taskArray = parseJsonFromLS();
-
-        //kopia tablicy pobranej z LS
-        let newArrToLS = taskArray.slice();
-
-        for (let j = 0; j < newArrToLS.length; j++) {
-            if (newArrToLS[j].taskId === id.innerText) {
-                newArrToLS.splice(j, 1);
-
-                //przekazanie uaktualnionej tablicy do LS
-                //automatycznie odświeży listę w html i eventy na buttonach
-                addArrayToLS(newArrToLS);
-            }
-        }
-    }
-
-
-    //=========================================================
-    //--------- BUTTONY - oznaczanie wykonanych ------------
-
-
-    function findCompleteTaskBtns() {
-        let completeTaskBtns = document.querySelectorAll('.task-complete');
-
-        for (let j = 0; j < completeTaskBtns.length; j++) {
-            completeTaskBtns[j].addEventListener('click', markAsCompleted);
-        }
-    }
-
-    function markAsCompleted() {
-
-        let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
-        let taskArray = parseJsonFromLS();
-
-        //kopia tablicy pobranej z LS
-        let newArrToLS = taskArray.slice();
-
-        for (let i = 0; i < newArrToLS.length; i++) {
-            if (newArrToLS[i].taskId === taskId.innerText) {
-                newArrToLS[i].taskDone = !newArrToLS[i].taskDone;
-            }
-        }
-
-        // ----- uaktualniona tablica wędruje do LS ----
-        //automatycznie odświeża listę w html i zmienia klasę wykonanym elementom
-        addArrayToLS(newArrToLS);
-    }
-
-
-    //=========================================================
-    //-------- BUTTONY - accordion - szczegóły zadań --------
-
-    function findShowDescrBtns () {
-        let showDescrBtns = document.querySelectorAll('.task-show');
-
-        for (let i = 0; i < showDescrBtns.length; i++) {
-            showDescrBtns[i].addEventListener('click', showDescrPanel);
-        }
-    }
-
-
-    function showDescrPanel() {
-        let taskDescrPanel = this.parentElement.parentElement.parentElement.querySelector('.task-descr-panel');
-
-        taskDescrPanel.classList.toggle('accordion-list-active');
-
-        if (taskDescrPanel.style.maxHeight) {
-            taskDescrPanel.style.maxHeight = null;
-        } else {
-            taskDescrPanel.style.maxHeight = taskDescrPanel.scrollHeight + "px";
-        }
-    }
-
-
-    //=========================================================
-    //-------------- FILTRY - priorytety --------------
-
-    function filterPriority() {
-        let taskArray = parseJsonFromLS();
-        let priorityOption = this.value;
-        let filteredArray = [];
-
-        let allTasks = taskList.querySelectorAll('li');
-
-        if (priorityOption !== "all") {
-            taskArray.forEach(el => {
-                if (el.taskPriority === priorityOption) {
-                    filteredArray.push(el);
-                }
-            })
-        } else {
-            filteredArray = taskArray;
-        }
-
-        addArrayToHtml(filteredArray);
-        findAllBtns();
-    }
-
-    priorities.addEventListener('change', filterPriority);
-
-
-    //-------------- FILTRY - pokaż wykonane --------------
-
-    function filterDone() {
-        let taskArray = parseJsonFromLS();
-
-        let filteredArray = [];
-        taskArray.forEach(el => {
-            if (el.taskDone) {
-                filteredArray.push(el);
-            }
+  }
+
+function deleteTask() {
+  let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
+  let user = firebase.auth().currentUser;
+
+  if (user) {
+    let docRef = db.collection("todolist").doc(user.email);
+
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        let taskArray = doc.data().tasks || [];
+        let newArrToDB = taskArray.filter(task => task.taskId !== taskId.innerText);
+        writeToDatabase(user.email, newArrToDB);
+        addArrayToHtml(newArrToDB);
+      }
+    }).catch(function (error) {
+      console.log("Błąd podczas odczytywania z bazy danych:", error);
+    });
+  }
+}
+
+function findDeleteBtns() {
+  let deleteTaskBtns = document.querySelectorAll('.task-delete');
+  for (let i = 0; i < deleteTaskBtns.length; i++) {
+    deleteTaskBtns[i].addEventListener('click', deleteTask)
+  }
+}
+
+
+function markAsCompleted() {
+  let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
+  let user = firebase.auth().currentUser;
+
+  if (user) {
+    let docRef = db.collection("todolist").doc(user.email);
+
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        let taskArray = doc.data().tasks || [];
+        let newArrToDB = taskArray.map(task => {
+          if (task.taskId === taskId.innerText) {
+            task.taskDone = !task.taskDone;
+          }
+          return task;
         });
-        addArrayToHtml(filteredArray);
-        findAllBtns();
-        filterPriorityForm.reset();
+        writeToDatabase(user.email, newArrToDB);
+        addArrayToHtml(newArrToDB);
+      }
+    }).catch(function (error) {
+      console.log("Błąd podczas odczytywania z bazy danych:", error);
+    });
+  }
+}
+
+function findCompleteTaskBtns() {
+  let completeTaskBtns = document.querySelectorAll('.task-complete');
+
+  for (let j = 0; j < completeTaskBtns.length; j++) {
+    completeTaskBtns[j].addEventListener('click', markAsCompleted);
+  }
+}
+
+function showDescrPanel() {
+  let taskDescrPanel = this.parentElement.parentElement.parentElement.querySelector('.task-descr-panel');
+  taskDescrPanel.classList.toggle('accordion-list-active');
+
+  if (taskDescrPanel.style.maxHeight) {
+    taskDescrPanel.style.maxHeight = null;
+  } else {
+    taskDescrPanel.style.maxHeight = taskDescrPanel.scrollHeight + "px";
+  }
+}
+
+function findShowDescrBtns() {
+  let showDescrBtns = document.querySelectorAll('.task-show');
+
+  for (let i = 0; i < showDescrBtns.length; i++) {
+    showDescrBtns[i].addEventListener('click', showDescrPanel);
+  }
+}
+
+function filterPriority() {
+  let taskArray = parseJsonFromLS();
+  let priorityOption = this.value;
+  let filteredArray = [];
+  let allTasks = taskList.querySelectorAll('li');
+
+  if (priorityOption !== "all") {
+    taskArray.forEach(el => {
+      if (el.taskPriority === priorityOption) {
+        filteredArray.push(el);
+      }
+    })
+  } else {
+    filteredArray = taskArray;
+  }
+
+  addArrayToHtml(filteredArray);
+  findAllBtns();
+}
+
+priorities.addEventListener('change', filterPriority);
+
+function filterDone() {
+  let taskArray = parseJsonFromLS();
+  let filteredArray = [];
+  taskArray.forEach(el => {
+    if (el.taskDone) {
+      filteredArray.push(el);
     }
+  });
+  addArrayToHtml(filteredArray);
+  findAllBtns();
+  filterPriorityForm.reset();
+}
 
-    filterDoneBtn.addEventListener('click', filterDone);
+filterDoneBtn.addEventListener('click', filterDone);
 
+function filterUndone() {
+  let taskArray = parseJsonFromLS();
+  let filteredArray = [];
 
-    //-------------- FILTRY - pokaż niewykonane --------------
-
-    function filterUndone() {
-        let taskArray = parseJsonFromLS();
-        let filteredArray = [];
-
-        taskArray.forEach(el => {
-            if (!el.taskDone) {
-                filteredArray.push(el);
-            }
-        });
-        addArrayToHtml(filteredArray);
-        findAllBtns();
-        filterPriorityForm.reset();
+  taskArray.forEach(el => {
+    if (!el.taskDone) {
+      filteredArray.push(el);
     }
+  });
+  addArrayToHtml(filteredArray);
+  findAllBtns();
+  filterPriorityForm.reset();
+}
 
-    filterUndoneBtn.addEventListener('click', filterUndone);
+filterUndoneBtn.addEventListener('click', filterUndone);
 
+function filtersReset() {
+  let taskArray = parseJsonFromLS();
+  addArrayToHtml(taskArray);
+  findAllBtns();
+  filterPriorityForm.reset();
+}
 
-    //-------------- FILTRY - pokaż wszystkie --------------
+filtersResetBtn.addEventListener('click', filtersReset);
 
-    function filtersReset() {
-        let taskArray = parseJsonFromLS();
+function removeAllTasks() {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    writeToDatabase(user.email, []);
+    addArrayToHtml([]);
+  }
+}
 
-        addArrayToHtml(taskArray);
-        findAllBtns();
-        filterPriorityForm.reset();
-    }
-
-    filtersResetBtn.addEventListener('click', filtersReset);
-
-
-
-    //===============================================
-    // ----- usuwanie wszystkich zadań -----
-
-    function removeAllTasks() {
-        //przekazuję pustą tablicę do LS i ona jest wczytywana do html
-        let newArrToLS = [];
-        addArrayToLS(newArrToLS);
-    }
-
-    removeAllBtn.addEventListener('click', removeAllTasks);
-
-
-    //===============================================
-    // ----- usuwanie wykonanych zadań -----
-
-    function removeFinishedTasks() {
-        let taskArray = parseJsonFromLS();
-        let newArrToLS = [];
-
-        for (let i = 0; i < taskArray.length; i++) {
-            if (!taskArray[i].taskDone) {
-                newArrToLS.push(taskArray[i])
-            }
-        }
-        addArrayToLS(newArrToLS);
-    }
-
-    removeFinishedBtn.addEventListener('click', removeFinishedTasks);
-
-
-    //===============================================
-    // ---- wysuwanie i chowanie formularza po kliknięciu dodaj nowe ----
-
-    function addNewTask() {
-        accordion(formSection);
-        accordionHeader(formHeader);
-        changeBtnTxt(addNewTaskBtn);
-        changeBtnClass(addNewTaskBtn);
-    }
-
-    addNewTaskBtn.addEventListener('click', addNewTask);
-
-
-    //stylowanie formularza (akordeon)
-    function accordion(thisSection) {
-        thisSection.classList.toggle('accordion');
-
-        thisSection.style.maxHeight = thisSection.style.maxHeight ?
-            null :
-            thisSection.scrollHeight + "px";
-    }
-
-    //stylowanie nagłówka (akordeon)
-    function accordionHeader(thisHeader) {
-        thisHeader.classList.toggle('header-accordion');
-    }
-
-    function changeBtnTxt(btnName) {
-        btnName.innerText = btnName.innerText === "ADD NEW" ?
-            "Hide form" :
-            "Add new"
-    }
-
-    function changeBtnClass(btnName) {
-        btnName.classList.toggle("btn-dark-blue");
-        btnName.classList.toggle("btn-light-blue");
-    }
-
-    // --- zamykanie akordeona po wysłaniu formularza ---
-    // --- wywoływane po walidacji
-    function accordionClose(thisSection) {
-        thisSection.classList.toggle('accordion');
-        thisSection.style.maxHeight = null;
-    }
-
-
-    // ===================================================
-    // 3) Wywoływanie funkcji
-    // ===================================================
-
-        // ----- start aplikacji -----
-        getFromLS();
-
+removeAllBtn.addEventListener('click', function () {
+  removeAllTasks();
 });
+
+function removeFinishedTasks() {
+  let taskArray = parseJsonFromLS();
+  let newArrToLS = [];
+
+  for (let i = 0; i < taskArray.length; i++) {
+    if (!taskArray[i].taskDone) {
+      newArrToLS.push(taskArray[i])
+    }
+  }
+
+  var user = firebase.auth().currentUser;
+  if (user) {
+    writeToDatabase(user.email, newArrToLS);
+    addArrayToHtml(newArrToLS);
+  }
+}
+
+removeFinishedBtn.addEventListener('click', function () {
+  removeFinishedTasks();
+});
+
+function addNewTask() {
+  accordion(formSection);
+  accordionHeader(formHeader);
+  changeBtnTxt(addNewTaskBtn);
+  changeBtnClass(addNewTaskBtn);
+}
+
+addNewTaskBtn.addEventListener('click', addNewTask);
+
+function accordion(thisSection) {
+  thisSection.classList.toggle('accordion');
+  thisSection.style.maxHeight = thisSection.style.maxHeight ?
+    null :
+    thisSection.scrollHeight + "px";
+}
+
+function accordionHeader(thisHeader) {
+  thisHeader.classList.toggle('header-accordion');
+}
+
+function changeBtnTxt(btnName) {
+  btnName.innerText = btnName.innerText === "Dodaj Zadanie" ?
+    "Dodaj Zadanie" :
+    "Dodaj Zadanie"
+}
+
+function changeBtnClass(btnName) {
+  btnName.classList.toggle("btn-dark-blue");
+  btnName.classList.toggle("btn-light-blue");
+}
+
+function accordionClose(thisSection) {
+  thisSection.classList.toggle('accordion');
+  thisSection.style.maxHeight = null;
+}
+
+// ----- schowanie formularza po walidacji -----
+function closeForm() {
+  accordionClose(formSection);
+  accordionHeader(formHeader);
+  changeBtnTxt(addNewTaskBtn);
+  changeBtnClass(addNewTaskBtn);
+}
+document.getElementById('form-submit-btn').addEventListener('click', formValidateAndSubmit);
+// ----- walidacja -----
+function formValidateAndSubmit(event) {
+    event.preventDefault();
+    
+    console.log("Przed pobraniem wartości pól");
+
+    let taskNameInput = document.getElementById('form-task');
+    let taskDateInput = document.getElementById('form-date');
+    let taskPriorityInput = document.getElementById('form-priority');
+    let taskDescriptionInput = document.getElementById('form-description');
+  
+    if (!taskNameInput || !taskDateInput || !taskPriorityInput || !taskDescriptionInput) {
+        console.error("Niektóre pola formularza nie istnieją.");
+        return;
+    }
+
+    let taskName = taskNameInput.value;
+    let taskDate = taskDateInput.value;
+    let taskPriority = taskPriorityInput.value;
+    let taskAbout = taskDescriptionInput.value;
+  
+    console.log("Przed utworzeniem nowego zadania");
+  
+    let newTask = {
+      taskName: taskName,
+      taskDate: taskDate,
+      taskPriority: taskPriority,
+      taskAbout: taskAbout,
+      taskId: generateTaskId(),
+      taskDone: false,
+    };
+  
+    let taskArray = parseJsonFromLS();
+  
+    // Dodaj nowe zadanie do listy
+    taskArray.push(newTask);
+  
+    // Zapisz nową listę zadań w bazie danych
+    saveToDatabase(taskArray);
+    
+    console.log("Po zapisie do bazy danych");
+  }
+
+/*
+window.onload = function () {
+  var firebaseConfig = {
+    apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
+    authDomain: "student-25aa2.firebaseapp.com",
+    projectId: "student-25aa2",
+    storageBucket: "student-25aa2.appspot.com",
+    messagingSenderId: "487092803105",
+    appId: "1:487092803105:web:55d7a9c30709a04701f560",
+    measurementId: "G-7P8N9VR2N6"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+
+  // check usera
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // user zalogowany
+      addSampleTaskToDatabase(user.email);
+      readFromDatabase(user.email);
+      console.log('Zalogowano jako: ', user.email);
+    } else {
+      // brak usera
+      console.log('BRAK LOGINU');
+      alert('Proszę się najpierw zalogować.');
+    }
+
+    readFromDatabase(user.email); // INIT
+  });
+};
+*/
+function addSampleTaskToDatabase(userEmail) {
+    var docRef = db.collection("todolist").doc(userEmail);
+  
+    var sampleTask = {
+      taskName: "Przykładowe zadanie",
+      taskDate: "2023-12-14",
+      taskPriority: "1",
+      taskAbout: "Opis przykładowego zadania",
+      taskId: generateTaskId(),
+      taskDone: false,
+    };
+  
+    docRef.set({
+      tasks: [sampleTask]
+    })
+    .then(function () {
+      console.log("Przykładowe zadanie dodane do bazy danych dla użytkownika: " + userEmail);
+    })
+    .catch(function (error) {
+      console.error("Błąd podczas dodawania przykładowego zadania do bazy danych: ", error);
+    });
+  }
