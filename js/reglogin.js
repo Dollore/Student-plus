@@ -105,3 +105,26 @@ var firebaseConfig = {
 	  console.error('Error during logout:', error);
 	});
   }
+  function openForgotPasswordForm() {
+	document.getElementById('forgotPasswordForm').style.display = 'block';
+}
+  function forgotPassword() {
+	var email = document.getElementById('email').value;
+
+	if (email) {
+		firebase.auth().sendPasswordResetEmail(email)
+			.then(() => {
+				// Email reset link sent!
+				console.log('Link do resetowania hasła wysłany na adres e-mail.');
+				// Możesz dodać dodatkową obsługę, taką jak ukrycie formularza po wysłaniu linku
+				document.getElementById('forgotPasswordForm').style.display = 'none';
+				alert('Link do resetowania hasła wysłany na adres e-mail.');
+			})
+			.catch((error) => {
+				console.error('Błąd podczas wysyłania linku do resetowania hasła:', error);
+			});
+	} else {
+		console.log('Nie podano adresu e-mail.');
+		alert('Nie podano adresu e-mail.');
+	}
+}
