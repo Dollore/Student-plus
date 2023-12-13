@@ -198,14 +198,11 @@ window.onload = function () {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
 
-    // Sprawdzenie statusu zalogowania użytkownika
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            // Jeżeli użytkownik zalogowany, wykonaj odpowiednie operacje
             readFromDatabase(user.email);
             console.log('Zalogowano jako: ', user.email);
         } else {
-            // Jeżeli użytkownik niezalogowany, wyświetl komunikat
             console.log('BRAK LOGINU');
             alert('Proszę się najpierw zalogować.');
         }
