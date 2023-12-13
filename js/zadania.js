@@ -12,7 +12,7 @@ const taskList = document.querySelector('#task-list');
 const priorities = document.querySelector('#filter-priority');
 const filterPriorityForm = document.querySelector('#filter_priority');
 form.addEventListener('submit', formValidateAndSubmit);
-let db;  // Dodaj zmienną db poza funkcję onload, aby była dostępna globalnie
+let db; 
 function generateTaskId() {
     return Math.random().toString(36).substr(2, 9);
   }
