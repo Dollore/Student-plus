@@ -1,0 +1,36 @@
+.button-container {
+    text-align: center;
+    z-index: 6;
+  }
+  .color-button {
+    position: fixed;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 100%;
+    bottom: 0;
+    right: 0;
+    margin: 24px;
+    box-shadow: 4px 4px 25px 2px;
+    background-color: #fff;
+    color: #000;
+    z-index: 5;
+    border: none;
+  }
+  .light-mode {
+    background-color: #D2D3D3;
+  }
+  .dark-mode {
+      background-color: #002e1cb1; 
+  }
+  
+  .icon::before {
+    content: ""; 
+  }
+  .dark-mode .icon::before {
+    content: icon; 
+  }
+  
+  
+  
+  
