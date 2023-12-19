@@ -10,6 +10,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
+    icon: __dirname + '/images/logo.png',
    // titleBarStyle: 'default',
     titleBarStyle: 'customButtonsOnHover',
     autoHideMenuBar: 'true',
