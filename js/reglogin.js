@@ -24,6 +24,8 @@ var firebaseConfig = {
 	// Sign in with email and password
 	firebase.auth().signInWithEmailAndPassword(email, password)
 	  .then(function () {
+		
+		
 		console.log("Sign in successful!");
 	  })
 	  .catch(function (error) {
@@ -64,12 +66,14 @@ var firebaseConfig = {
 	const userEmailContainer = document.getElementById('userEmail');
 	const logoutLink = document.getElementById('logoutLink');
 	const loginStatusDiv = document.getElementById('loginStatus');
+	const afterLoginProcess = document.getElementById('sidebarId');
+	
 
 	if (user) {
 	  // User is signed in
 	  userStatusContainer.textContent = 'Zalogowano jako:';
 	  userEmailContainer.textContent = user.email;
-
+	  
 	  // Show the login status div
 	  loginStatusDiv.style.visibility = 'visible';
 	  loginStatusDiv.style.display = 'block';
@@ -79,6 +83,7 @@ var firebaseConfig = {
 
 	  // Hide the wrapper
 	  wrapper.style.display = 'none';
+	  afterLoginProcess.style.display = 'block';
 	} else {
 	  // No user is signed in
 	  userStatusContainer.textContent = '';
@@ -92,6 +97,7 @@ var firebaseConfig = {
 
 	  // Show the wrapper
 	  wrapper.style.display = 'flex';
+	  afterLoginProcess.style.display = 'none';
 	}
   });
 
