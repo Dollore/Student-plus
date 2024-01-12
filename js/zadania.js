@@ -202,6 +202,7 @@ function filterPriority() {
     taskArray.forEach(el => {
       if (el.taskPriority === priorityOption) {
         filteredArray.push(el);
+        
       }
     })
   } else {
@@ -210,6 +211,7 @@ function filterPriority() {
 
   addArrayToHtml(filteredArray);
   findAllBtns();
+  location.reload();
 }
 
 priorities.addEventListener('change', filterPriority);
@@ -220,14 +222,16 @@ function filterDone() {
   taskArray.forEach(el => {
     if (el.taskDone) {
       filteredArray.push(el);
+      
     }
   });
   addArrayToHtml(filteredArray);
   findAllBtns();
   filterPriorityForm.reset();
+  
 }
 
-filterDoneBtn.addEventListener('click', filterDone);
+//filterDoneBtn.addEventListener('click', filterDone);
 
 function filterUndone() {
   let taskArray = parseJsonFromLS();
@@ -243,7 +247,7 @@ function filterUndone() {
   filterPriorityForm.reset();
 }
 
-filterUndoneBtn.addEventListener('click', filterUndone);
+//filterUndoneBtn.addEventListener('click', filterUndone);
 
 function filtersReset() {
   let taskArray = parseJsonFromLS();
