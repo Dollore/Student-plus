@@ -38,6 +38,10 @@
   
       <label for="group">Grupa studencka: </label>
       <input type="text" id="groupInput" value="Grupa" contenteditable="">
+
+      <label for="reputation">Reputacja: </label>
+      <input type="number" id="reput" value="Reputacja" readonly>
+
     
   
     <div id="saveButton">
@@ -125,6 +129,22 @@ var profiles = {
     document.getElementById("studiesInput").value = userData.studies || "";
     document.getElementById("semesterInput").value = userData.semester || "";
     document.getElementById("groupInput").value = userData.group || "";
+
+    var userNotesRef = profiles.db.collection("NOTES").doc(profiles.user.email).collection("userNotes");
+  
+  userNotesRef.get().then(function (querySnapshot) {
+    var totalReputation = 0;
+
+    querySnapshot.forEach(function (doc) {
+      var reputationData = doc.data();
+      var reputation = reputationData.rating || 0;
+      totalReputation += reputation;
+    });
+
+    document.getElementById("reput").value = totalReputation;
+  }).catch(function (error) {
+    console.log("Błąd pobierania danych o reputacji: ", error);
+  });
   }
 };
 
