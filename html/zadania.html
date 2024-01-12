@@ -31,10 +31,10 @@
     <form action="" id="form">
   
         <label for="task-input">Title</label>
-        <input type="text" name="form-task" id="form-task" class="task-input" placeholder="Title">
+        <input type="text" name="form-task" id="form-task" class="task-input" placeholder="Tytuł">
   
         <label for="date-input">Date</label>
-        <input type="date" name="form-date" id="form-date" class="date-input" placeholder="Date" required>
+        <input type="date" name="form-date" id="form-date" class="date-input" placeholder="Data" required>
   
         <p>Priorytet</p>
         <div class="priority-box">
@@ -61,7 +61,7 @@
         </div>
   
         <label for="textarea-input">Opis zadania</label>
-        <textarea name="form-description" cols="100" rows="3" id="form-description" class="textarea-input" placeholder="Task description"></textarea>
+        <textarea name="form-description" cols="100" rows="3" id="form-description" class="textarea-input" placeholder="Opis zadania"></textarea>
   
         <div class="form-bottom">
             <button id="form-submit-btn" class="form-submit-btn" type="submit">Zapisz</button>
@@ -79,8 +79,8 @@
   
     <div class="filters-row-2">
         <div class="filters-row-2-btns">
-            <button type="button" id="filter-done-btn" class="filter-done-btn">Pokaż zakończone</button>
-            <button type="button" id="filter-undone-btn" class="filter-undone-btn">Pokaż niezakonczone</button>
+           <!-- <button type="button" id="filter-done-btn" class="filter-done-btn">Pokaż zakończone</button>
+            <button type="button" id="filter-undone-btn" class="filter-undone-btn">Pokaż niezakonczone</button> -->
         </div>
   
         <form action="" id="filter_priority" class="filter_priority">
@@ -100,7 +100,7 @@
     </div>
   
     <div class="filters-row-3">
-        <button type="button" id="filters-reset-btn" class="filters-reset-btn">Pokaż wszystkie</button>
+        <button type="button" id="filters-reset-btn" class="filters-reset-btn" onclick="location.reload();">Pokaż wszystkie</button>
     </div>
   
   </section>
