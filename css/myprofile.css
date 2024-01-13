@@ -44,13 +44,19 @@ button
 }
 #myProfileInfo
 {
+    position:absolute;
     background: #0b200c83;
     border: 1px solid #00000071;
     border-radius:12px;
     padding: 12px;
     text-align: center;
+    margin-left:50%;
     color:#fff;
     font-size: 24px;
+	float: left;
+    margin-top:5%;
+	margin-left: 40%;
+    max-width: 360px;
 }
 #saveButton
 {
