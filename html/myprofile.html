@@ -18,162 +18,166 @@
 </head>
 
 <body>
-  <div id="sidebarId" class="sidebar"></div>
-  <!-- Główne okno -->
-  <h1>Mój profil</h1>
-  
-  <form id="profileForm">
-    <div id="myProfileInfo">
-      <label for="name">Imię:</label>
-      <input type="text" id="nameInput" value="Imię" contenteditable="">
-  
-      <label for="surname">Nazwisko:</label>
-      <input type="text" id="surnameInput" value="Nazwisko" contenteditable="">
-  
-      <label for="studies">Kierunek studiów: </label>
-      <input type="text" id="studiesInput" value="Kierunek" contenteditable="">
-  
-      <label for="semester">Semestr: </label>
-      <input type="text" id="semesterInput" value="Semestr" contenteditable="">
-  
-      <label for="group">Grupa studencka: </label>
-      <input type="text" id="groupInput" value="Grupa" contenteditable="">
+  <div class="container">
+    <div id="sidebarId" class="sidebar"></div>
+    <!-- Główne okno -->
+    <h1>Mój profil</h1>
 
-      <label for="reputation">Reputacja: </label>
-      <input type="number" id="reput" value="Reputacja" readonly>
+    <div id="myProfileInfo" class="row justify-content-center">
+      <form id="profileForm" class="col-md-5">
 
-    
-  
-    <div id="saveButton">
-      <button id="saveChangesButton" style="color:#000; font-weight:bold;">Zapisz zmiany</button>
+        <label for="name">Imię:</label>
+        <input type="text" id="nameInput" value="Imię" contenteditable="">
+
+        <label for="surname">Nazwisko:</label>
+        <input type="text" id="surnameInput" value="Nazwisko" contenteditable="">
+
+        <label for="studies">Kierunek studiów: </label>
+        <input type="text" id="studiesInput" value="Kierunek" contenteditable="">
+
+        <label for="semester">Semestr: </label>
+        <input type="text" id="semesterInput" value="Semestr" contenteditable="">
+
+        <label for="group">Grupa studencka: </label>
+        <input type="text" id="groupInput" value="Grupa" contenteditable="">
+
+        <label for="reputation">Reputacja: </label>
+        <input type="number" id="reput" value="Reputacja" readonly>
+
+
+
+        <div id="saveButton">
+          <button id="saveChangesButton" style="color:#000; font-weight:bold;">Zapisz zmiany</button>
+        </div>
+
+      </form>
     </div>
-  </div>
-  </form>
+    <!-- Tryb ciemniejszy/jaśniejszy -->
 
-  <!-- Tryb ciemniejszy/jaśniejszy -->
-
-  <div class="text">
-    <div class="button-container">
-      <button class="color-button">
-        <i class='bx bxs-sun icon'></i>
+    <div class="text">
+      <div class="button-container">
+        <button class="color-button">
+          <i class='bx bxs-sun icon'></i>
+      </div>
     </div>
+    </button>
   </div>
-  </button></div>
-  
+  </div>
+
 
   <script src="../js/loadSidebar.js"></script>
   <script src="../js/sidebar.js"></script>
   <script src="../js/lightdark.js"></script>
 
   <script>
-var profiles = {
-  db: null,
-  user: null,
+    var profiles = {
+      db: null,
+      user: null,
 
-  init: function () {
+      init: function () {
 
-    document.getElementById("saveChangesButton").addEventListener("click", function(event) {
-    event.preventDefault(); 
-    profiles.saveUserProfile();
-  });
-  },
+        document.getElementById("saveChangesButton").addEventListener("click", function (event) {
+          event.preventDefault();
+          profiles.saveUserProfile();
+        });
+      },
 
-  getUserProfile: function () {
-    if (profiles.user) {
-      var userProfileRef = profiles.db.collection("USERPROFILES").doc(profiles.user.email);
+      getUserProfile: function () {
+        if (profiles.user) {
+          var userProfileRef = profiles.db.collection("USERPROFILES").doc(profiles.user.email);
 
-      userProfileRef.get().then(function (doc) {
-        if (doc.exists) {
-          var userData = doc.data();
-          profiles.setProfileFields(userData);
+          userProfileRef.get().then(function (doc) {
+            if (doc.exists) {
+              var userData = doc.data();
+              profiles.setProfileFields(userData);
+            } else {
+              console.log("Dane użytkownika nie znalezione w bazie.");
+            }
+          }).catch(function (error) {
+            console.log("Błąd pobierania danych użytkownika: ", error);
+          });
         } else {
-          console.log("Dane użytkownika nie znalezione w bazie.");
+          console.log("Brak zalogowanego użytkownika.");
         }
-      }).catch(function (error) {
-        console.log("Błąd pobierania danych użytkownika: ", error);
+      },
+
+      saveUserProfile: function () {
+        if (profiles.user) {
+          var name = document.getElementById("nameInput").value;
+          var surname = document.getElementById("surnameInput").value;
+          var studies = document.getElementById("studiesInput").value;
+          var semester = document.getElementById("semesterInput").value;
+          var group = document.getElementById("groupInput").value;
+
+          // Zapisz dane użytkownika do bazy danych
+          profiles.db.collection("USERPROFILES").doc(profiles.user.email).set({
+            name: name,
+            surname: surname,
+            studies: studies,
+            semester: semester,
+            group: group
+          }).then(function () {
+            console.log("Dane użytkownika zapisane pomyślnie.");
+            profiles.getUserProfile();
+          }).catch(function (error) {
+            console.error("Błąd zapisu danych użytkownika: ", error);
+          });
+        } else {
+          console.log("Brak zalogowanego użytkownika.");
+        }
+      },
+
+      setProfileFields: function (userData) {
+        document.getElementById("nameInput").value = userData.name || "";
+        document.getElementById("surnameInput").value = userData.surname || "";
+        document.getElementById("studiesInput").value = userData.studies || "";
+        document.getElementById("semesterInput").value = userData.semester || "";
+        document.getElementById("groupInput").value = userData.group || "";
+
+        var userNotesRef = profiles.db.collection("NOTES").doc(profiles.user.email).collection("userNotes");
+
+        userNotesRef.get().then(function (querySnapshot) {
+          var totalReputation = 0;
+
+          querySnapshot.forEach(function (doc) {
+            var reputationData = doc.data();
+            var reputation = reputationData.rating || 0;
+            totalReputation += reputation;
+          });
+
+          document.getElementById("reput").value = totalReputation;
+        }).catch(function (error) {
+          console.log("Błąd pobierania danych o reputacji: ", error);
+        });
+      }
+    };
+
+    window.onload = function () {
+      var firebaseConfig = {
+        apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
+        authDomain: "student-25aa2.firebaseapp.com",
+        projectId: "student-25aa2",
+        storageBucket: "student-25aa2.appspot.com",
+        messagingSenderId: "487092803105",
+        appId: "1:487092803105:web:55d7a9c30709a04701f560",
+        measurementId: "G-7P8N9VR2N6"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      profiles.db = firebase.firestore();
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log('Zalogowano jako: ', user.email);
+          profiles.user = user;
+          profiles.init(); // Inicjalizacja danych
+          profiles.getUserProfile();
+        } else {
+          console.log('BRAK LOGINU');
+          alert('Proszę się najpierw zalogować.');
+        }
       });
-    } else {
-      console.log("Brak zalogowanego użytkownika.");
-    }
-  },
-
-  saveUserProfile: function () {
-  if (profiles.user) {
-    var name = document.getElementById("nameInput").value;
-    var surname = document.getElementById("surnameInput").value;
-    var studies = document.getElementById("studiesInput").value;
-    var semester = document.getElementById("semesterInput").value;
-    var group = document.getElementById("groupInput").value;
-
-    // Zapisz dane użytkownika do bazy danych
-    profiles.db.collection("USERPROFILES").doc(profiles.user.email).set({
-      name: name,
-      surname: surname,
-      studies: studies,
-      semester: semester,
-      group: group
-    }).then(function () {
-      console.log("Dane użytkownika zapisane pomyślnie.");
-      profiles.getUserProfile();
-    }).catch(function (error) {
-      console.error("Błąd zapisu danych użytkownika: ", error);
-    });
-  } else {
-    console.log("Brak zalogowanego użytkownika.");
-  }
-},
-
-  setProfileFields: function (userData) {
-    document.getElementById("nameInput").value = userData.name || "";
-    document.getElementById("surnameInput").value = userData.surname || "";
-    document.getElementById("studiesInput").value = userData.studies || "";
-    document.getElementById("semesterInput").value = userData.semester || "";
-    document.getElementById("groupInput").value = userData.group || "";
-
-    var userNotesRef = profiles.db.collection("NOTES").doc(profiles.user.email).collection("userNotes");
-  
-  userNotesRef.get().then(function (querySnapshot) {
-    var totalReputation = 0;
-
-    querySnapshot.forEach(function (doc) {
-      var reputationData = doc.data();
-      var reputation = reputationData.rating || 0;
-      totalReputation += reputation;
-    });
-
-    document.getElementById("reput").value = totalReputation;
-  }).catch(function (error) {
-    console.log("Błąd pobierania danych o reputacji: ", error);
-  });
-  }
-};
-
-window.onload = function () {
-  var firebaseConfig = {
-    apiKey: "AIzaSyBSWWSlqBNKg9ZBq5w1YwB-Yypa7_qeCJ0",
-    authDomain: "student-25aa2.firebaseapp.com",
-    projectId: "student-25aa2",
-    storageBucket: "student-25aa2.appspot.com",
-    messagingSenderId: "487092803105",
-    appId: "1:487092803105:web:55d7a9c30709a04701f560",
-    measurementId: "G-7P8N9VR2N6"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  profiles.db = firebase.firestore();
-
-   firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      console.log('Zalogowano jako: ', user.email);
-      profiles.user = user;
-      profiles.init(); // Inicjalizacja danych
-      profiles.getUserProfile();
-    } else {
-      console.log('BRAK LOGINU');
-      alert('Proszę się najpierw zalogować.');
-    }
-  });
-};
+    };
   </script>
 </body>
 
