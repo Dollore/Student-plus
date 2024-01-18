@@ -17,6 +17,9 @@ label
     width: 360px;
     display: block;
     margin-top: 10px;
+	text-align: left;
+	justify-content: left;
+	padding-left: 15%;
 }
 input 
 {
@@ -44,18 +47,19 @@ button
 }
 #myProfileInfo
 {
-    position:absolute;
+	display: block;
     background: #0b200c83;
     border: 1px solid #00000071;
     border-radius:12px;
     padding: 12px;
     text-align: center;
-    margin-left:50%;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
     color:#fff;
     font-size: 24px;
-	float: left;
     margin-top:5%;
-	margin-left: 40%;
     max-width: 360px;
 }
 #saveButton
@@ -76,4 +80,15 @@ h1
       height: auto;
       margin-top: 10px;
     }
-  
+select{
+	width: 70%;
+	padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+#myProfileInfo{
+	justify-content: center;
+	text-align: center;
+	
+}
