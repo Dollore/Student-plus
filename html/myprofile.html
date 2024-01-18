@@ -25,19 +25,44 @@
   <form id="profileForm">
     <div id="myProfileInfo">
       <label for="name">Imię:</label>
-      <input type="text" id="nameInput" value="Imię" contenteditable="">
+      <input type="text" id="nameInput" value="Imię" maxlength="25" contenteditable="">
   
       <label for="surname">Nazwisko:</label>
-      <input type="text" id="surnameInput" value="Nazwisko" contenteditable="">
+      <input type="text" id="surnameInput" value="Nazwisko" maxlength="25" contenteditable="">
   
       <label for="studies">Kierunek studiów: </label>
-      <input type="text" id="studiesInput" value="Kierunek" contenteditable="">
+      <select name="Kierunek" id="studiesInput">
+      	<option value="Informatyka">Informatyka</option>
+      	<option value="Automatyka i Robotyka">Automatyka i Robotyka</option>
+      	<option value="Mechatronika">Mechatronika</option>
+      	<option value="Zarządzanie">Zarządzanie</option>
+      	<option value="Medycyna">Medycyna</option>
+      	<option value="Teleinformatyka">Teleinformatyka</option>
+      	<option value="Rachunkowość">Rachunkowość</option>
+      	<option value="Socjologia">Socjologia</option>
+      </select>
+      <!--<input type="text" id="studiesInput" value="Kierunek" contenteditable="">-->
   
       <label for="semester">Semestr: </label>
-      <input type="text" id="semesterInput" value="Semestr" contenteditable="">
+      <select name="Semestr" id="semesterInput">
+      	<option value="1">1</option>
+      	<option value="2">2</option>
+      	<option value="3">3</option>
+      	<option value="4">4</option>
+      	<option value="5">5</option>
+      	<option value="6">6</option>
+      	<option value="7">7</option>
+      	<option value="8">8</option>
+      </select>
+      <!--<input type= id="semesterInput" value="Semestr" contenteditable="">-->
   
       <label for="group">Grupa studencka: </label>
-      <input type="text" id="groupInput" value="Grupa" contenteditable="">
+      <select name="Grupa" id="groupInput">
+      	<option value="1">Grupa 1</option>
+      	<option value="2">Grupa 2</option>
+      	
+      </select>
+      <!--<input type="text" id="groupInput" value="Grupa" contenteditable="">-->
 
       <label for="reputation">Reputacja: </label>
       <input type="number" id="reput" value="Reputacja" readonly>
