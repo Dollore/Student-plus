@@ -107,7 +107,8 @@ var cal = {
       if (squares[i] == "b") { cell.classList.add("calBlank"); }
       else {
         cell.innerHTML = `<div class="cellDate">${squares[i]}</div>`;
-        const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(squares[i].toString());
+        const userEmail = firebase.auth().currentUser.email;
+        const dayDocRef = cal.db.collection(userEmail).doc(cal.hYear.value).collection(cal.hMth.value).doc(squares[i].toString());
   
         // CHECK LOGINU
         if (firebase.auth().currentUser) {
@@ -142,10 +143,11 @@ var cal = {
   },
 
   show: function (day) {
+    const userEmail = firebase.auth().currentUser.email;
     cal.hForm.reset();
     cal.sDay = day;
     cal.hfDate.value = `${cal.sDay} ${cal.months[cal.sMth]} ${cal.sYear}`;
-    const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+    const dayDocRef = cal.db.collection(userEmail).doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
     dayDocRef.get().then((dayDoc) => {
       if (dayDoc.exists) {
         cal.hfTxt.value = dayDoc.data().event;
@@ -159,12 +161,13 @@ var cal = {
 
   save: function () {
     const user = firebase.auth().currentUser;
+    const userEmail = firebase.auth().currentUser.email;
 
     if (user) {
       // Zalogowany
       const userEmail = user.email;
 
-      const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+      const dayDocRef = cal.db.collection(userEmail).doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
       dayDocRef.set({
         event: cal.hfTxt.value,
         user: userEmail,
@@ -185,7 +188,8 @@ var cal = {
   },
 
   del: function () {
-    const dayDocRef = cal.db.collection("cal").doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
+    const userEmail = firebase.auth().currentUser.email;
+    const dayDocRef = cal.db.collection(userEmail).doc(cal.hYear.value).collection(cal.hMth.value).doc(cal.sDay.toString());
     if (confirm("Usunąć wydarzenie?")) {
       dayDocRef.delete()
         .then(() => {
