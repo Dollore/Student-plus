@@ -59,7 +59,7 @@
   .cards li img {
     display: inline-block;
     width: 100%;
-    height: auto;
+    height: 100%;
     max-width: 150px;
     float: left;
     border-radius: 50%;
