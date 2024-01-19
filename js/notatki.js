@@ -125,14 +125,15 @@ let notes = {
   init: async function () {
     // czyszczenie przed inicjacją
     let addBtn = document.getElementById("addBtn");
-    let clearBtn = document.getElementById("clearAll");
+    //let clearBtn = document.getElementById("clearAll");
     addBtn.style.backgroundColor = "#005a37";
     addBtn.style.color = "white";
-    clearBtn.style.backgroundColor = "red";
-    clearBtn.style.color = "white";
-    clearBtn.addEventListener("click", (e) => {
-      window.location.reload();
-    });
+    //clearBtn.style.backgroundColor = "red";
+    //clearBtn.style.color = "white";
+    //clearBtn.addEventListener("click", (e) => {
+    //this.refresh();
+    //})
+    ;
 
     
     let initialNotes = await notes.getNotes();
