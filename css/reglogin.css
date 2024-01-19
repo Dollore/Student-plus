@@ -13,6 +13,7 @@
 	align-items: center;
 	overflow: hidden;
 	transition: transform .5s ease, height .2s ease;
+	margin-right:50%;
 
 }
 .wrapper.active
@@ -39,6 +40,7 @@
 	position: absolute;
 	transition: none;
 	transform: translateX(400px);
+	top:20%;
 }
 .wrapper.active .form-box.register
 {
@@ -177,7 +179,7 @@
 	justify-content: center;
 	color: #fff;
 	visibility: hidden;
-	top:50%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
 	height: 460px;
@@ -204,15 +206,16 @@
   }
 body  .wrapper
 {
+	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 85vh;
 	background: #002e1cb1;
 	background-position: center;
-	left: 35%;
-	right: 35%;
-	bottom: 20%;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
 
 }
 body
