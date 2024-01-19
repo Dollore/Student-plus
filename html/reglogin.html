@@ -84,8 +84,9 @@
      			
      		</form>
      	</div>
-      
+		 
     </div>
+	
     <script src="../js/loadSidebar.js"></script>
     <script src="../js/reglogin.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -101,7 +102,34 @@
           </div>
     </button></div>
 
+	<div id="error-container"></div>
+	<script>
+        function showError(message) {
+            // Znajdź kontener na komunikaty
+            const errorContainer = document.getElementById('error-container');
 
+            // Stwórz nowy element div z komunikatem
+            const errorMessage = document.createElement('div');
+            errorMessage.classList.add('error-message');
+            errorMessage.textContent = message;
+
+            // Dodaj komunikat do kontenera
+            errorContainer.appendChild(errorMessage);
+
+            // Dodaj klasę show po pewnym czasie
+            setTimeout(() => {
+                errorMessage.classList.add('show');
+            }, 500);  // Dodaj po 100 milisekundach (zmień według potrzeb)
+
+            // Usuń komunikat po pewnym czasie (opcjonalnie)
+            setTimeout(() => {
+                errorContainer.removeChild(errorMessage);
+            }, 5000);  // Usuń po 5 sekundach (zmień według potrzeb)
+        }
+
+        // Przykład użycia
+        
+    </script>
 
 <script src="../js/sidebar.js"></script>
 <script src="../js/lightdark.js"></script>
