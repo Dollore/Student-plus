@@ -222,3 +222,23 @@ body
 {
 	background-color: #2d433ba8;
 }
+.error-message {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	background-color: #1fa14e;
+	color: #ffffff;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid;
+	border-radius: 15px;
+	width: auto;
+	opacity: 0; 
+	transform: translateY(20px); 
+	transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
+}
+
+.error-message.show {
+	opacity: 1;  /* Widoczność po dodaniu klasy show */
+	transform: translateY(0);  /* Powrót na miejsce */
+}
