@@ -14,7 +14,7 @@ const filterPriorityForm = document.querySelector('#filter_priority');
 form.addEventListener('submit', formValidateAndSubmit);
 let db; 
 function generateTaskId() {
-    return Math.random().toString(36).substr(2, 9);
+    return Date.now().toString();
   }
 function parseJsonFromLS() {
   let taskArrayJSON = localStorage.getItem("todolist");
@@ -140,6 +140,30 @@ function findDeleteBtns() {
 }
 
 
+/*function markAsCompleted() {
+  let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
+  let user = firebase.auth().currentUser;
+
+  if (user) {
+    let docRef = db.collection("todolist").doc(user.email);
+
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        let taskArray = doc.data().tasks || [];
+        let newArrToDB = taskArray.map(task => {
+          if (task.taskId === taskId.innerText) {
+            task.taskDone = !task.taskDone;
+          }
+          return task;
+        });
+        writeToDatabase(user.email, newArrToDB);
+        addArrayToHtml(newArrToDB);
+      }
+    }).catch(function (error) {
+      console.log("Błąd podczas odczytywania z bazy danych:", error);
+    });
+  }
+}*/
 function markAsCompleted() {
   let taskId = this.parentElement.parentElement.parentElement.querySelector('.task-id');
   let user = firebase.auth().currentUser;
@@ -164,7 +188,13 @@ function markAsCompleted() {
     });
   }
 }
+/*function findCompleteTaskBtns() {
+  let completeTaskBtns = document.querySelectorAll('.task-complete');
 
+  for (let j = 0; j < completeTaskBtns.length; j++) {
+    completeTaskBtns[j].addEventListener('click', markAsCompleted);
+  }
+}*/
 function findCompleteTaskBtns() {
   let completeTaskBtns = document.querySelectorAll('.task-complete');
 
@@ -172,7 +202,6 @@ function findCompleteTaskBtns() {
     completeTaskBtns[j].addEventListener('click', markAsCompleted);
   }
 }
-
 function showDescrPanel() {
   let taskDescrPanel = this.parentElement.parentElement.parentElement.querySelector('.task-descr-panel');
   taskDescrPanel.classList.toggle('accordion-list-active');
@@ -192,29 +221,71 @@ function findShowDescrBtns() {
   }
 }
 
-function filterPriority() {
+/*function filterPriority() {
   let taskArray = parseJsonFromLS();
-  let priorityOption = this.value;
+  //let priorityOption = parseInt(this.value, 10); // Convert to number
+	let priorityOption = document.getElementById('priorities').value;
   let filteredArray = [];
-  let allTasks = taskList.querySelectorAll('li');
 
-  if (priorityOption !== "all") {
-    taskArray.forEach(el => {
-      if (el.taskPriority === priorityOption) {
-        filteredArray.push(el);
-        
-      }
-    })
+  //if (!isNaN(priorityOption)) {
+   // filteredArray = taskArray.filter(el => el.taskPriority == priorityOption);
+  //} else {
+  //  filteredArray = taskArray;
+  //}
+	if (priorityOption !== "all") {
+    filteredArray = taskArray.filter(el => el.taskPriority === priorityOption);
   } else {
     filteredArray = taskArray;
   }
 
   addArrayToHtml(filteredArray);
   findAllBtns();
-  location.reload();
-}
+  //location.reload();
+}*/
+function filterPriority() {
+  alert("Filter Priority function called."); // Add this line
 
-priorities.addEventListener('change', filterPriority);
+  let taskArray = parseJsonFromLS();
+  let priorityOption = document.getElementById('priorities').value;
+  alert("Selected Priority: " + priorityOption); // Add this line
+
+  let filteredArray = [];
+
+  if (priorityOption !== "all") {
+    filteredArray = taskArray.filter(el => el.taskPriority === priorityOption);
+  } else {
+    filteredArray = taskArray;
+  }
+
+  alert("Filtered Array: " + JSON.stringify(filteredArray)); // Add this line
+
+  addArrayToHtml(filteredArray);
+  findAllBtns();
+}
+//priorities.addEventListener('change', filterPriority);
+document.addEventListener('DOMContentLoaded', function () {
+  // ... (your existing code)
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      readFromDatabase(user.email);
+      console.log('Zalogowano jako: ', user.email);
+    } else {
+      console.log('BRAK LOGINU');
+      alert('Proszę się najpierw zalogować.');
+    }
+
+    readFromDatabase(user.email); // INIT
+
+    // Add the event listener for the priority filter here
+    //document.getElementById('priorities').addEventListener('change', filterPriority);
+	  let priorityFilter = document.getElementById('filter-priority');
+    priorityFilter.addEventListener('change', function () {
+      console.log('Priority filter changed:', priorityFilter.value);
+      filterPriority();
+    });
+  });
+});
 
 function filterDone() {
   let taskArray = parseJsonFromLS();
@@ -288,8 +359,9 @@ function removeFinishedTasks() {
 }
 
 removeFinishedBtn.addEventListener('click', function () {
-  removeFinishedTasks();
+removeFinishedTasks();
 });
+
 
 function addNewTask() {
   accordion(formSection);
@@ -337,47 +409,61 @@ function closeForm() {
 document.getElementById('form-submit-btn').addEventListener('click', formValidateAndSubmit);
 // ----- walidacja -----
 function formValidateAndSubmit(event) {
-    event.preventDefault();
-    
-    console.log("Przed pobraniem wartości pól");
+  event.preventDefault();
 
-    let taskNameInput = document.getElementById('form-task');
-    let taskDateInput = document.getElementById('form-date');
-    let taskPriorityInput = document.getElementById('form-priority');
-    let taskDescriptionInput = document.getElementById('form-description');
-  
-    if (!taskNameInput || !taskDateInput || !taskPriorityInput || !taskDescriptionInput) {
-        console.error("Niektóre pola formularza nie istnieją.");
-        return;
-    }
+  console.log("Before retrieving field values");
 
-    let taskName = taskNameInput.value;
-    let taskDate = taskDateInput.value;
-    let taskPriority = taskPriorityInput.value;
-    let taskAbout = taskDescriptionInput.value;
-  
-    console.log("Przed utworzeniem nowego zadania");
-  
-    let newTask = {
-      taskName: taskName,
-      taskDate: taskDate,
-      taskPriority: taskPriority,
-      taskAbout: taskAbout,
-      taskId: generateTaskId(),
-      taskDone: false,
-    };
-  
-    let taskArray = parseJsonFromLS();
-  
-    // Dodaj nowe zadanie do listy
-    taskArray.push(newTask);
-  
-    // Zapisz nową listę zadań w bazie danych
-    saveToDatabase(taskArray);
-    
-    console.log("Po zapisie do bazy danych");
+  let taskNameInput = document.getElementById('form-task');
+  let taskDateInput = document.getElementById('form-date');
+  let taskPriorityInputs = document.querySelectorAll('input[name="form-priority"]:checked');
+  let taskDescriptionInput = document.getElementById('form-description');
+
+  if (!taskNameInput || !taskDateInput || !taskPriorityInputs.length || !taskDescriptionInput) {
+    console.error("Some form fields do not exist or are not filled in.");
+    return;
   }
 
+  let taskName = taskNameInput.value;
+  let taskDate = taskDateInput.value;
+  let taskPriority = taskPriorityInputs[0].value; // Get the value of the checked radio button
+  let taskAbout = taskDescriptionInput.value;
+
+  console.log("Before creating a new task");
+
+  let newTask = {
+    taskName: taskName,
+    taskDate: taskDate,
+    taskPriority: taskPriority,
+    taskAbout: taskAbout,
+    taskId: generateTaskId(),
+    taskDone: false,
+  };
+
+  // Retrieve the current tasks from the database
+  const currentUser = firebase.auth().currentUser;
+
+  if (currentUser) {
+    const docRef = db.collection("todolist").doc(currentUser.email);
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        const taskArray = doc.data().tasks || [];
+
+        // Add the new task to the in-memory array
+        taskArray.push(newTask);
+
+        // Save the updated tasks to the database
+        docRef.set({
+          tasks: taskArray
+        });
+
+        // Retrieve the updated tasks from the database and display them
+        readFromDatabase(currentUser.email);
+      }
+    }).catch(function (error) {
+      console.log("Error reading from the database:", error);
+    });
+  }
+}
 /*
 window.onload = function () {
   var firebaseConfig = {
