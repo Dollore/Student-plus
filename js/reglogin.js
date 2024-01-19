@@ -24,12 +24,12 @@ var firebaseConfig = {
 	// Sign in with email and password
 	firebase.auth().signInWithEmailAndPassword(email, password)
 	  .then(function () {
-		
-		
 		console.log("Sign in successful!");
+		showError('Zalogowano pomyślnie.');
 	  })
 	  .catch(function (error) {
 		console.error("Sign in failed:", error.message);
+		showError('Błąd logowania.');
 	  });
   });
 
@@ -44,9 +44,11 @@ var firebaseConfig = {
 	firebase.auth().createUserWithEmailAndPassword(email, password)
 	  .then(function () {
 		console.log("User registered successfully!");
+		showError('Poprawnie utworzono konto.');
 	  })
 	  .catch(function (error) {
 		console.error("Registration failed:", error.message);
+		showError('Błąd w tworzeniu konta. Email w użyciu lub hasło ma mniej niż 6 znaków.');
 	  });
   });
   const wrapper = document.querySelector('.wrapper');
@@ -106,6 +108,7 @@ var firebaseConfig = {
 	firebase.auth().signOut().then(function () {
 	  // Sign-out successful.
 	  console.log('User signed out');
+	  showError('Wylogowano.');
 	}).catch(function (error) {
 	  // An error happened.
 	  console.error('Error during logout:', error);
@@ -124,13 +127,13 @@ var firebaseConfig = {
 				console.log('Link do resetowania hasła wysłany na adres e-mail.');
 				// Możesz dodać dodatkową obsługę, taką jak ukrycie formularza po wysłaniu linku
 				document.getElementById('forgotPasswordForm').style.display = 'none';
-				alert('Link do resetowania hasła wysłany na adres e-mail.');
+				showError('Link do resetowania hasła wysłany na adres e-mail.');
 			})
 			.catch((error) => {
 				console.error('Błąd podczas wysyłania linku do resetowania hasła:', error);
 			});
 	} else {
 		console.log('Nie podano adresu e-mail.');
-		alert('Nie podano adresu e-mail.');
+		showError('Nie podano adresu e-mail.');
 	}
 }
